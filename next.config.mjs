@@ -31,8 +31,6 @@ const nextConfig = {
     config.resolve.alias = {
       ...config.resolve.alias,
       '@': __dirname,
-      '@/lib': `${__dirname}/lib`,
-      '@/components': `${__dirname}/components`,
     };
     return config;
   },
