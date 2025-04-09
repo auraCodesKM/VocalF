@@ -1,3 +1,9 @@
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
 let userConfig = undefined
 try {
   userConfig = await import('./v0-user-next.config')
