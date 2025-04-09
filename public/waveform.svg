@@ -1,0 +1,85 @@
+<svg width="800" height="400" viewBox="0 0 800 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="gradient" x1="0" y1="0" x2="800" y2="0">
+      <stop offset="0%" stop-color="#ff7676" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#ff4747" stop-opacity="0.8"/>
+    </linearGradient>
+  </defs>
+  
+  {/* Multiple wave lines with different animations */}
+  <g>
+    {/* Wave line 1 */}
+    <path d="M0 200 C 100 150, 200 250, 300 200 S 500 150, 600 200 S 700 250, 800 200" 
+          stroke="url(#gradient)" 
+          strokeWidth="1.5" 
+          fill="none">
+      <animate attributeName="d" 
+        dur="3s"
+        repeatCount="indefinite"
+        values="
+          M0 200 C 100 150, 200 250, 300 200 S 500 150, 600 200 S 700 250, 800 200;
+          M0 200 C 100 250, 200 150, 300 200 S 500 250, 600 200 S 700 150, 800 200;
+          M0 200 C 100 150, 200 250, 300 200 S 500 150, 600 200 S 700 250, 800 200"
+      />
+    </path>
+    
+    {/* Wave line 2 */}
+    <path d="M0 180 C 100 130, 200 230, 300 180 S 500 130, 600 180 S 700 230, 800 180" 
+          stroke="url(#gradient)" 
+          strokeWidth="1.5" 
+          fill="none">
+      <animate attributeName="d" 
+        dur="2.5s"
+        repeatCount="indefinite"
+        values="
+          M0 180 C 100 130, 200 230, 300 180 S 500 130, 600 180 S 700 230, 800 180;
+          M0 180 C 100 230, 200 130, 300 180 S 500 230, 600 180 S 700 130, 800 180;
+          M0 180 C 100 130, 200 230, 300 180 S 500 130, 600 180 S 700 230, 800 180"
+      />
+    </path>
+    
+    {/* Wave line 3 */}
+    <path d="M0 220 C 100 170, 200 270, 300 220 S 500 170, 600 220 S 700 270, 800 220" 
+          stroke="url(#gradient)" 
+          strokeWidth="1.5" 
+          fill="none">
+      <animate attributeName="d" 
+        dur="3.5s"
+        repeatCount="indefinite"
+        values="
+          M0 220 C 100 170, 200 270, 300 220 S 500 170, 600 220 S 700 270, 800 220;
+          M0 220 C 100 270, 200 170, 300 220 S 500 270, 600 220 S 700 170, 800 220;
+          M0 220 C 100 170, 200 270, 300 220 S 500 170, 600 220 S 700 270, 800 220"
+      />
+    </path>
+    
+    {/* Additional wave lines */}
+    <path d="M0 160 C 100 110, 200 210, 300 160 S 500 110, 600 160 S 700 210, 800 160" 
+          stroke="url(#gradient)" 
+          strokeWidth="1" 
+          fill="none">
+      <animate attributeName="d" 
+        dur="4s"
+        repeatCount="indefinite"
+        values="
+          M0 160 C 100 110, 200 210, 300 160 S 500 110, 600 160 S 700 210, 800 160;
+          M0 160 C 100 210, 200 110, 300 160 S 500 210, 600 160 S 700 110, 800 160;
+          M0 160 C 100 110, 200 210, 300 160 S 500 110, 600 160 S 700 210, 800 160"
+      />
+    </path>
+    
+    <path d="M0 240 C 100 190, 200 290, 300 240 S 500 190, 600 240 S 700 290, 800 240" 
+          stroke="url(#gradient)" 
+          strokeWidth="1" 
+          fill="none">
+      <animate attributeName="d" 
+        dur="3.2s"
+        repeatCount="indefinite"
+        values="
+          M0 240 C 100 190, 200 290, 300 240 S 500 190, 600 240 S 700 290, 800 240;
+          M0 240 C 100 290, 200 190, 300 240 S 500 290, 600 240 S 700 190, 800 240;
+          M0 240 C 100 190, 200 290, 300 240 S 500 190, 600 240 S 700 290, 800 240"
+      />
+    </path>
+  </g>
+</svg> 
