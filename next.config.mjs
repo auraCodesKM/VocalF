@@ -21,6 +21,15 @@ const nextConfig = {
     parallelServerBuildTraces: true,
     parallelServerCompiles: true,
   },
+  webpack: (config) => {
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      '@': __dirname,
+      '@/lib': `${__dirname}/lib`,
+      '@/components': `${__dirname}/components`,
+    };
+    return config;
+  },
 }
 
 mergeConfig(nextConfig, userConfig)
