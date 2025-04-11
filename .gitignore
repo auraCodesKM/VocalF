@@ -42,7 +42,6 @@ develop-eggs/
 downloads/
 eggs/
 .eggs/
-lib/
 lib64/
 parts/
 sdist/
@@ -52,6 +51,7 @@ var/
 *.egg
 venv/
 .venv/
+python_lib/
 
 # IDE specific files
 .idea/
@@ -65,6 +65,5 @@ venv/
 
 # Backend specific
 /backend/plots/
-/backend/reports/ venv/
-.next/
+/backend/reports/
 __pycache__/
