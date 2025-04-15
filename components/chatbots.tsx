@@ -43,7 +43,7 @@ export function ChatbotsManager() {
           var v = d.createElement(t), s = d.getElementsByTagName(t)[0];
           v.onload = function() {
             window.voiceflow.chat.load({
-              verify: { projectID: '67f1e429a3a7e2d38356c456' },
+              verify: { projectID: '67fdf3b8402fbd3ba763556b' },
               url: 'https://general-runtime.voiceflow.com',
               versionID: 'production',
               voice: {
