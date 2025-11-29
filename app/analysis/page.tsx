@@ -18,7 +18,7 @@ import { cn } from "@/lib/utils"
 const PHRASES = [
   "The human voice is a remarkable instrument that can convey emotions, ideas, and personality through subtle variations in tone, pitch, and rhythm that our technology can analyze with precision.",
   "Regular monitoring of your vocal health is essential for professionals who rely on their voice daily, such as teachers, singers, public speakers, and customer service representatives who speak for extended periods.",
-  "Echo.ai uses advanced machine learning algorithms to detect early warning signs of vocal strain, nodules, polyps, and other voice disorders before they become serious medical conditions requiring intensive treatment.",
+  "VocalWell.ai uses advanced machine learning algorithms to detect early warning signs of vocal strain, nodules, polyps, and other voice disorders before they become serious medical conditions requiring intensive treatment.",
   "When reading this passage, please maintain your normal speaking voice and pace so our system can accurately analyze your vocal patterns, frequency range, and potential signs of fatigue or strain.",
   "The quick brown fox jumps over the lazy dog while the five boxing wizards jump quickly nearby, demonstrating a wide range of phonetic sounds that help our system assess your complete vocal profile."
 ];
@@ -67,16 +67,16 @@ export default function AnalysisPage() {
       const wordTimer = setTimeout(() => {
         setCurrentWordIndex(prev => prev + 1);
       }, 1000); // Adjust timing as needed
-      
+
       return () => clearTimeout(wordTimer);
     }
   }, [isRecording, currentWordIndex, selectedPhrase, phraseWords.length]);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = event.target.files?.[0]
-    
+
     if (!selectedFile) return;
-    
+
     // Check file size
     if (selectedFile.size > MAX_FILE_SIZE) {
       toast({
@@ -86,15 +86,15 @@ export default function AnalysisPage() {
       });
       return;
     }
-    
+
     // Check for both common WAV MIME types and file extension
     const isWavFile = selectedFile && (
-      selectedFile.type === "audio/wav" || 
+      selectedFile.type === "audio/wav" ||
       selectedFile.type === "audio/wave" ||
       selectedFile.type === "audio/x-wav" ||
       selectedFile.name.toLowerCase().endsWith('.wav')
     )
-    
+
     if (isWavFile) {
       setFile(selectedFile)
       setAudioUrl(URL.createObjectURL(selectedFile))
@@ -118,7 +118,7 @@ export default function AnalysisPage() {
       setAudioUrl(null);
       setFile(null);
       chunksRef.current = [];
-      
+
       // Start countdown
       setCountdown(3);
       await new Promise(resolve => setTimeout(resolve, 1000));
@@ -127,7 +127,7 @@ export default function AnalysisPage() {
       setCountdown(1);
       await new Promise(resolve => setTimeout(resolve, 1000));
       setCountdown(null);
-      
+
       // Get media stream
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       const mediaRecorder = new MediaRecorder(stream);
@@ -147,7 +147,7 @@ export default function AnalysisPage() {
         const audioFile = new File([blob], `recording_${Date.now()}.wav`, { type: 'audio/wav' });
         setFile(audioFile);
         setAudioUrl(URL.createObjectURL(blob));
-        
+
         // Stop all tracks
         stream.getTracks().forEach(track => track.stop());
       };
@@ -155,7 +155,7 @@ export default function AnalysisPage() {
       // Start recording
       mediaRecorder.start();
       setIsRecording(true);
-      
+
       // Setup timer for recording duration
       timerRef.current = setInterval(() => {
         setRecordingTime(prev => {
@@ -167,7 +167,7 @@ export default function AnalysisPage() {
           return newTime;
         });
       }, 1000);
-      
+
     } catch (error) {
       console.error("Error starting recording:", error);
       setCountdown(null);
@@ -183,12 +183,12 @@ export default function AnalysisPage() {
     if (mediaRecorderRef.current && mediaRecorderRef.current.state !== 'inactive') {
       mediaRecorderRef.current.stop();
     }
-    
+
     if (timerRef.current) {
       clearInterval(timerRef.current);
       timerRef.current = null;
     }
-    
+
     setIsRecording(false);
     setRecordingTime(0);
     setCurrentWordIndex(0);
@@ -203,13 +203,13 @@ export default function AnalysisPage() {
       });
       return;
     }
-    
+
     setLoading(true)
     setResult(null)
     setPlotPath(null)
     setReportPath(null)
     setReportFile(null)
-    
+
     try {
       const formData = new FormData()
       formData.append("audio", file)
@@ -275,7 +275,7 @@ export default function AnalysisPage() {
 
   const viewReport = async () => {
     if (!reportPath) return;
-    
+
     try {
       window.open(API_ENDPOINTS.REPORT(reportPath), '_blank');
     } catch (error) {
@@ -290,7 +290,7 @@ export default function AnalysisPage() {
 
   const downloadReport = async () => {
     if (!reportPath) return;
-    
+
     try {
       window.open(API_ENDPOINTS.REPORT_DOWNLOAD(reportPath), '_blank');
     } catch (error) {
@@ -308,7 +308,7 @@ export default function AnalysisPage() {
       <ProtectedRoute>
         <div className="container py-8">
           <h1 className="text-3xl font-bold mb-8">Voice Analysis</h1>
-          
+
           <div className="grid gap-8">
             <Tabs defaultValue="upload" className="w-full">
               <TabsList className="grid w-full grid-cols-2 mb-6">
@@ -321,7 +321,7 @@ export default function AnalysisPage() {
                   Record Audio
                 </TabsTrigger>
               </TabsList>
-              
+
               <TabsContent value="upload">
                 <Card>
                   <CardHeader>
@@ -343,12 +343,12 @@ export default function AnalysisPage() {
                           file:bg-indigo-500 file:text-white
                           hover:file:bg-indigo-600"
                       />
-                      
+
                       {audioUrl && !isRecording && !recordedBlob && (
                         <div className="space-y-4">
                           <audio controls src={audioUrl} className="w-full" />
-                          <Button 
-                            onClick={analyzeAudio} 
+                          <Button
+                            onClick={analyzeAudio}
                             disabled={loading}
                             className="w-full bg-indigo-500 hover:bg-indigo-600 text-white"
                           >
@@ -360,7 +360,7 @@ export default function AnalysisPage() {
                   </CardContent>
                 </Card>
               </TabsContent>
-              
+
               <TabsContent value="record">
                 <Card>
                   <CardHeader>
@@ -385,7 +385,7 @@ export default function AnalysisPage() {
                           </motion.div>
                         </div>
                       )}
-                      
+
                       {/* Recording Interface */}
                       {isRecording && countdown === null && (
                         <div className="space-y-6">
@@ -399,19 +399,19 @@ export default function AnalysisPage() {
                               {(recordingTime % 60).toString().padStart(2, '0')}
                             </span>
                           </div>
-                          
+
                           <div className="p-6 bg-indigo-50 rounded-lg">
                             <p className="text-sm text-gray-500 mb-3">Please read the following phrase:</p>
                             <div className="text-xl font-medium text-center space-y-2">
                               {phraseWords.map((word, idx) => (
-                                <span 
-                                  key={idx} 
+                                <span
+                                  key={idx}
                                   className={cn(
                                     "inline-block mx-1 transition-all duration-300",
-                                    idx === currentWordIndex 
-                                      ? "text-indigo-500 font-semibold scale-110" 
-                                      : idx < currentWordIndex 
-                                        ? "text-gray-400" 
+                                    idx === currentWordIndex
+                                      ? "text-indigo-500 font-semibold scale-110"
+                                      : idx < currentWordIndex
+                                        ? "text-gray-400"
                                         : "text-gray-600"
                                   )}
                                 >
@@ -420,8 +420,8 @@ export default function AnalysisPage() {
                               ))}
                             </div>
                           </div>
-                          
-                          <Button 
+
+                          <Button
                             onClick={stopRecording}
                             className="w-full bg-indigo-500 hover:bg-indigo-600 text-white flex items-center justify-center gap-2"
                           >
@@ -430,12 +430,12 @@ export default function AnalysisPage() {
                           </Button>
                         </div>
                       )}
-                      
+
                       {/* Recording Controls and Preview */}
                       {!isRecording && countdown === null && (
                         <div className="space-y-4">
                           {!recordedBlob ? (
-                            <Button 
+                            <Button
                               onClick={startRecording}
                               className="w-full bg-indigo-500 hover:bg-indigo-600 text-white flex items-center justify-center gap-2"
                             >
@@ -446,14 +446,14 @@ export default function AnalysisPage() {
                             <div className="space-y-4">
                               <audio controls src={audioUrl as string} className="w-full" />
                               <div className="grid grid-cols-2 gap-4">
-                                <Button 
+                                <Button
                                   onClick={startRecording}
                                   variant="outline"
                                   className="border-indigo-200 hover:bg-indigo-50 text-indigo-500"
                                 >
                                   Record Again
                                 </Button>
-                                <Button 
+                                <Button
                                   onClick={analyzeAudio}
                                   disabled={loading}
                                   className="bg-indigo-500 hover:bg-indigo-600 text-white"

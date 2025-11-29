@@ -15,7 +15,7 @@ export default function AuthCallbackPage() {
       try {
         console.log("Auth callback: Processing redirect result");
         const { user, error } = await handleRedirectResult();
-        
+
         if (error) {
           console.error("Auth callback: Error handling redirect:", error);
           setStatus("Authentication failed. Redirecting to sign-in page...");
@@ -24,7 +24,7 @@ export default function AuthCallbackPage() {
           }, 2000);
           return;
         }
-        
+
         if (user) {
           console.log("Auth callback: Successfully authenticated:", user.email);
           setStatus("Authentication successful! Redirecting to dashboard...");
@@ -59,7 +59,7 @@ export default function AuthCallbackPage() {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-background">
       <div className="text-center space-y-6">
-        <h1 className="text-2xl font-bold">Echo.ai</h1>
+        <h1 className="text-2xl font-bold">VocalWell.ai</h1>
         <div className="animate-pulse">
           <p>{status}</p>
         </div>
@@ -67,4 +67,4 @@ export default function AuthCallbackPage() {
       </div>
     </div>
   );
-} 
+}

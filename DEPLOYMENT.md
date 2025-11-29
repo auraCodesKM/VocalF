@@ -1,4 +1,4 @@
-# Echo.ai Frontend - Deployment Guide
+# VocalWell.ai Frontend - Deployment Guide
 
 ## 🚀 Quick Start
 

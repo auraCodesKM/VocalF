@@ -73,8 +73,8 @@ export function Layout({ children, featuresRef }: LayoutProps) {
             width: `${navbarWidth}%`,
           }}
           className={`transition-all duration-300 rounded-2xl ${scrolled
-              ? "bg-white/60 dark:bg-gray-900/60 backdrop-blur-xl border border-white/20 dark:border-gray-700/30 shadow-xl shadow-indigo-500/5"
-              : "bg-white/40 dark:bg-gray-900/40 backdrop-blur-lg border border-white/30 dark:border-gray-700/20 shadow-lg shadow-indigo-500/5"
+            ? "bg-white/60 dark:bg-gray-900/60 backdrop-blur-xl border border-white/20 dark:border-gray-700/30 shadow-xl shadow-indigo-500/5"
+            : "bg-white/40 dark:bg-gray-900/40 backdrop-blur-lg border border-white/30 dark:border-gray-700/20 shadow-lg shadow-indigo-500/5"
             }`}
         >
           <div className="flex h-20 items-center justify-between px-6">
@@ -83,7 +83,7 @@ export function Layout({ children, featuresRef }: LayoutProps) {
                 <div className="w-11 h-11 flex items-center justify-center bg-gradient-to-br from-indigo-600 to-indigo-700 text-white rounded-xl shadow-lg shadow-indigo-600/20">
                   <Mic className="h-6 w-6" />
                 </div>
-                <span className="ml-3 text-xl font-display font-semibold tracking-tight">Echo.ai</span>
+                <span className="ml-3 text-xl font-display font-semibold tracking-tight">VocalWell.ai</span>
               </div>
             </Link>
 
@@ -266,7 +266,7 @@ export function Layout({ children, featuresRef }: LayoutProps) {
                       <div className="w-10 h-10 flex items-center justify-center bg-indigo-600 text-white rounded-lg">
                         <Mic className="h-6 w-6" />
                       </div>
-                      <span className="ml-2 text-xl font-display font-semibold">Echo.ai</span>
+                      <span className="ml-2 text-xl font-display font-semibold">VocalWell.ai</span>
                     </div>
                   </div>
 
@@ -388,7 +388,7 @@ export function Layout({ children, featuresRef }: LayoutProps) {
                 <div className="w-12 h-12 flex items-center justify-center bg-gradient-to-br from-indigo-600 to-indigo-700 text-white rounded-xl shadow-lg shadow-indigo-600/20">
                   <Mic className="h-5 w-5" />
                 </div>
-                <span className="text-xl font-display font-semibold tracking-tight">Echo.ai</span>
+                <span className="text-xl font-display font-semibold tracking-tight">VocalWell.ai</span>
               </div>
               <p className="text-muted-foreground max-w-xs text-gray-500 dark:text-gray-400 text-base">
                 Harnessing AI to revolutionize voice health analysis and make it accessible to everyone.
@@ -415,7 +415,7 @@ export function Layout({ children, featuresRef }: LayoutProps) {
           </div>
 
           <div className="border-t mt-12 pt-10 flex flex-col md:flex-row justify-between items-center">
-            <p className="text-sm text-gray-500 dark:text-gray-400">© 2025 Echo.ai. All rights reserved.</p>
+            <p className="text-sm text-gray-500 dark:text-gray-400">© 2025 VocalWell.ai. All rights reserved.</p>
             <div className="flex items-center space-x-6 mt-6 md:mt-0">
               <a href="#" className="text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">
                 <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
