@@ -20,7 +20,7 @@ import {
 import { Fragment } from "react"
 import { Dialog, Transition } from "@headlessui/react"
 import Image from "next/image"
-import { Pointer } from "@/components/ui/pointer"
+import { SmoothCursor } from "@/components/ui/smooth-cursor"
 
 interface LayoutProps {
   children: ReactNode;
@@ -67,8 +67,8 @@ export function Layout({ children, featuresRef }: LayoutProps) {
 
   return (
     <div className="flex min-h-screen flex-col">
-      {/* Custom Pointer - Site-wide */}
-      <Pointer className="stroke-purple-500 text-purple-600 dark:stroke-purple-400 dark:text-purple-500" />
+      {/* Custom Smooth Cursor - Site-wide */}
+      <SmoothCursor />
 
       {/* Wrapper for centered navbar */}
       <div className="sticky top-0 z-50 w-full flex justify-center px-4 py-3 transition-all duration-300">
