@@ -61,7 +61,7 @@ body {
   }
 
   .shadow-soft {
-    box-shadow: 0 1px 3px rgba(0,0,0,0.05), 0 10px 25px -5px rgba(0,0,0,0.05), 0 20px 48px -20px rgba(0,0,0,0.12);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05), 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 20px 48px -20px rgba(0, 0, 0, 0.12);
   }
 
   .shadow-hard {
@@ -96,9 +96,11 @@ body {
   0% {
     background-position: 0% 50%;
   }
+
   50% {
     background-position: 100% 50%;
   }
+
   100% {
     background-position: 0% 50%;
   }
@@ -181,37 +183,39 @@ body {
   * {
     @apply border-border;
   }
+
   body {
     @apply bg-background text-foreground;
   }
-  h1, h2, h3, h4, h5, h6 {
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     @apply font-display font-medium tracking-tight;
   }
+
   h1 {
     @apply text-4xl sm:text-5xl md:text-6xl;
   }
+
   h2 {
     @apply text-3xl sm:text-4xl md:text-5xl;
   }
+
   h3 {
     @apply text-2xl sm:text-3xl;
   }
+
   .container {
     @apply px-4 md:px-6 lg:px-8 max-w-7xl mx-auto;
   }
 }
 
-/* Global cursor hiding for custom cursor */
-*, *::before, *::after {
-  cursor: none !important;
-}
-
-/* Allow pointer events on interactive elements but keep cursor hidden */
-button, a, input, textarea, select, [role="button"], [tabindex]:not([tabindex="-1"]) {
-  cursor: none !important;
-}
-
-::view-transition-old(root), ::view-transition-new(root) {
-    animation: none;
-    mix-blend-mode: normal;
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
 }
