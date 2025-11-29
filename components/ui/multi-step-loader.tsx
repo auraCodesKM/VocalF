@@ -34,13 +34,14 @@ const LoaderCore = ({
                 />
             </div>
 
-            {/* Current and Completed Steps Only */}
+            {/* Show completed, active, and upcoming steps */}
             <div className="w-full space-y-4">
                 {loadingStates.map((loadingState, index) => {
                     const isActive = index === value;
                     const isComplete = index < value;
+                    const isUpcoming = index > value && index <= value + 4; // Show next 4 steps
 
-                    if (!isActive && !isComplete) return null;
+                    if (!isActive && !isComplete && !isUpcoming) return null;
 
                     return (
                         <motion.div
@@ -53,12 +54,16 @@ const LoaderCore = ({
                         >
                             {isComplete ? (
                                 <CheckCircle2 className="h-5 w-5 text-green-600 flex-shrink-0" />
-                            ) : (
+                            ) : isActive ? (
                                 <Loader2 className="h-5 w-5 text-indigo-600 animate-spin flex-shrink-0" />
+                            ) : (
+                                <div className="h-5 w-5 rounded-full border-2 border-gray-300 dark:border-gray-600 flex-shrink-0" />
                             )}
                             <p className={`text-base ${isComplete
                                     ? 'text-gray-600 dark:text-gray-400'
-                                    : 'text-gray-900 dark:text-white font-medium'
+                                    : isActive
+                                        ? 'text-gray-900 dark:text-white font-medium'
+                                        : 'text-gray-400 dark:text-gray-500'
                                 }`}>
                                 {loadingState.text}
                             </p>
