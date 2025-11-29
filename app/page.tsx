@@ -54,8 +54,12 @@ export default function HomePage() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5 }}
                 >
-                  <span className="inline-block px-4 py-1.5 bg-gradient-to-r from-indigo-500/20 to-purple-500/20 dark:from-indigo-500/10 dark:to-purple-500/10 text-indigo-800 dark:text-indigo-300 text-sm font-medium rounded-full mb-6">
-                    Advanced Voice Analysis
+                  <span className="inline-flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 dark:from-gray-700 dark:via-gray-600 dark:to-gray-700 text-gray-800 dark:text-gray-100 text-sm font-semibold rounded-full mb-6 border-2 border-gray-300 dark:border-gray-500 shadow-lg shadow-gray-400/50 dark:shadow-gray-900/50 relative overflow-hidden">
+                    <div className="absolute inset-0 bg-gradient-to-br from-white/40 via-transparent to-black/20 dark:from-white/10 dark:via-transparent dark:to-black/40"></div>
+                    <Sparkles className="h-4 w-4 relative z-10 text-amber-600 dark:text-amber-400" />
+                    <span className="relative z-10 bg-gradient-to-r from-gray-700 via-gray-900 to-gray-700 dark:from-gray-100 dark:via-gray-300 dark:to-gray-100 bg-clip-text text-transparent font-bold">
+                      Advanced Voice Analysis
+                    </span>
                   </span>
 
                   <h1 className="text-6xl lg:text-8xl font-display font-bold tracking-tight mb-8 text-gray-900 dark:text-white leading-[1.1] text-shadow-sm">
@@ -117,8 +121,8 @@ export default function HomePage() {
                         key={index}
                         onClick={() => setCurrentImage(index)}
                         className={`w-2.5 h-2.5 rounded-full transition-all ${index === currentImage
-                            ? "bg-white scale-110"
-                            : "bg-white/50 hover:bg-white/70"
+                          ? "bg-white scale-110"
+                          : "bg-white/50 hover:bg-white/70"
                           }`}
                         aria-label={`Go to slide ${index + 1}`}
                       />

@@ -13,6 +13,7 @@ import { useToast } from "@/components/ui/use-toast"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { motion, AnimatePresence } from "framer-motion"
 import { cn } from "@/lib/utils"
+import { MultiStepLoader } from "@/components/ui/multi-step-loader"
 
 // Sample phrases for recording
 const PHRASES = [
@@ -34,6 +35,16 @@ export default function AnalysisPage() {
   const { user } = useAuth();
   const reportService = new ReportService();
   const { toast } = useToast();
+
+  // Loading states for multi-step loader
+  const loadingStates = [
+    { text: "Uploading voice recording..." },
+    { text: "Processing audio data..." },
+    { text: "Analyzing vocal patterns..." },
+    { text: "Detecting voice characteristics..." },
+    { text: "Generating comprehensive report..." },
+    { text: "Analysis complete!" },
+  ];
 
   // Recording state
   const [isRecording, setIsRecording] = useState(false)
@@ -306,6 +317,9 @@ export default function AnalysisPage() {
   return (
     <Layout>
       <ProtectedRoute>
+        {/* Multi-Step Loader for Analysis */}
+        <MultiStepLoader loadingStates={loadingStates} loading={loading} duration={2000} />
+
         <div className="container py-8">
           <h1 className="text-3xl font-bold mb-8">Voice Analysis</h1>
 
