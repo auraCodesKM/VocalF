@@ -35,14 +35,14 @@ export default function HomePage() {
       <HeadMetadata />
       <Layout featuresRef={featuresRef}>
         {/* Hero Section with Background Boxes */}
-        <section className="relative min-h-screen -mt-24 pt-32 pb-16 flex items-center overflow-hidden">
-          {/* Background Boxes */}
-          <div className="absolute inset-0 w-full h-full bg-white dark:bg-slate-900 z-0">
+        <section className="relative min-h-screen -mt-24 pt-32 pb-16 flex items-center overflow-hidden bg-white dark:bg-slate-900">
+          {/* Background Boxes - ensure it's visible */}
+          <div className="absolute inset-0 w-full h-full z-0">
             <Boxes />
           </div>
 
-          {/* Gradient overlay */}
-          <div className="absolute inset-0 bg-gradient-to-b from-indigo-50/50 via-purple-50/50 to-blue-50/50 dark:from-gray-950/50 dark:via-indigo-950/30 dark:to-gray-950/50 z-[1]"></div>
+          {/* Gradient overlay - very subtle to not hide boxes */}
+          <div className="absolute inset-0 bg-gradient-to-b from-white/30 via-white/20 to-white/30 dark:from-slate-900/30 dark:via-slate-900/20 dark:to-slate-900/30 z-[1] pointer-events-none"></div>
 
           {/* Content with higher z-index */}
           <div className="container relative z-10">

@@ -7,12 +7,12 @@ export const BoxesCore = ({ className, ...rest }: { className?: string }) => {
     const rows = new Array(150).fill(1);
     const cols = new Array(100).fill(1);
     const colors = [
-        "--purple-300",
-        "--purple-400",
-        "--purple-500",
-        "--indigo-300",
-        "--indigo-400",
-        "--indigo-500",
+        "hsl(270, 100%, 87%)",  // light purple
+        "hsl(270, 100%, 80%)",  // medium purple
+        "hsl(270, 100%, 70%)",  // darker purple
+        "hsl(245, 100%, 87%)",  // light indigo
+        "hsl(245, 100%, 80%)",  // medium indigo
+        "hsl(245, 100%, 70%)",  // darker indigo
     ];
     const getRandomColor = () => {
         return colors[Math.floor(Math.random() * colors.length)];
@@ -32,19 +32,19 @@ export const BoxesCore = ({ className, ...rest }: { className?: string }) => {
             {rows.map((_, i) => (
                 <motion.div
                     key={`row` + i}
-                    className="w-16 h-8  border-l  border-purple-300/20 dark:border-slate-700 relative"
+                    className="w-16 h-8 border-l border-slate-300/40 dark:border-slate-700/60 relative"
                 >
                     {cols.map((_, j) => (
                         <motion.div
                             whileHover={{
-                                backgroundColor: `var(${getRandomColor()})`,
+                                backgroundColor: getRandomColor(),
                                 transition: { duration: 0 },
                             }}
                             animate={{
                                 transition: { duration: 2 },
                             }}
                             key={`col` + j}
-                            className="w-16 h-8  border-r border-t border-purple-300/20 dark:border-slate-700 relative"
+                            className="w-16 h-8 border-r border-t border-slate-300/40 dark:border-slate-700/60 relative cursor-pointer"
                         >
                             {j % 2 === 0 && i % 2 === 0 ? (
                                 <svg
@@ -53,7 +53,7 @@ export const BoxesCore = ({ className, ...rest }: { className?: string }) => {
                                     viewBox="0 0 24 24"
                                     strokeWidth="1.5"
                                     stroke="currentColor"
-                                    className="absolute h-6 w-10 -top-[14px] -left-[22px] text-purple-300/20 dark:text-slate-700 stroke-[1px] pointer-events-none"
+                                    className="absolute h-6 w-10 -top-[14px] -left-[22px] text-slate-300/40 dark:text-slate-700/60 stroke-[1px] pointer-events-none"
                                 >
                                     <path
                                         strokeLinecap="round"
