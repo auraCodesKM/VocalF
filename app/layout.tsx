@@ -9,6 +9,10 @@ export const metadata: Metadata = {
   title: 'Echo.ai - Voice Analysis',
   description: 'AI-powered voice analysis for early detection of voice disorders',
   generator: 'v0.dev',
+  icons: {
+    icon: '/favicon.svg',
+    apple: '/favicon.svg',
+  },
 }
 
 export default function RootLayout({

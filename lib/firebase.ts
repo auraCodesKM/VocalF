@@ -1,12 +1,12 @@
 "use client"
 
 import { initializeApp } from 'firebase/app';
-import { 
-  getAuth, 
-  signInWithEmailAndPassword, 
-  createUserWithEmailAndPassword, 
-  signOut, 
-  GoogleAuthProvider, 
+import {
+  getAuth,
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  signOut,
+  GoogleAuthProvider,
   signInWithPopup,
   signInWithRedirect,
   getRedirectResult,
@@ -20,13 +20,13 @@ import { getFirestore } from 'firebase/firestore';
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-    apiKey: "AIzaSyC2Zv0nHKheL4Z2zKJrEovfoFsiPjfLXK8",
-    authDomain: "echo12.firebaseapp.com",
-    projectId: "echo12",
-    storageBucket: "echo12.firebasestorage.app",
-    messagingSenderId: "842877359776",
-    appId: "1:842877359776:web:f15571082b1a33ba195bc5",
-    measurementId: "G-V7LTPKF6ZD"
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY || "AIzaSyC2Zv0nHKheL4Z2zKJrEovfoFsiPjfLXK8",
+  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN || "echo12.firebaseapp.com",
+  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID || "echo12",
+  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET || "echo12.firebasestorage.app",
+  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID || "842877359776",
+  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID || "1:842877359776:web:f15571082b1a33ba195bc5",
+  measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID || "G-V7LTPKF6ZD"
 };
 
 // Initialize Firebase
@@ -89,15 +89,15 @@ export const signInWithGoogle = async () => {
     googleProvider.setCustomParameters({
       prompt: 'select_account'
     });
-    
+
     // Use popup for sign-in
     const userCredential = await signInWithPopup(auth, googleProvider);
     console.log("Google Sign-In successful");
-    
+
     return { user: userCredential.user, error: null };
   } catch (error: any) {
     console.error("Google Sign-In error:", error.code, error.message);
-    
+
     // Return user-friendly error messages
     if (error.code === 'auth/popup-blocked') {
       return { user: null, error: "Pop-up was blocked by your browser. Please enable pop-ups for this site." };
@@ -106,7 +106,7 @@ export const signInWithGoogle = async () => {
     } else if (error.code === 'auth/network-request-failed') {
       return { user: null, error: "Network error. Please check your internet connection." };
     }
-    
+
     return { user: null, error: "Sign-in failed. Please try again." };
   }
 };
