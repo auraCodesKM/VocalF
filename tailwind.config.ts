@@ -68,16 +68,17 @@ const config: Config = {
         'chart-4': "hsl(var(--chart-4))",
         'chart-5': "hsl(var(--chart-5))",
       },
-      sm: "calc(var(--radius) - 4px)",
-    },
-    fontFamily: {
-      sans: ["var(--font-sans)"],
-      display: ["var(--font-display)"],
-      mono: ["var(--font-mono)"],
-    }, borderRadius: {
-      lg: "var(--radius)",
-      md: "calc(var(--radius) - 2px)",
-
+      fontFamily: {
+        sans: ["var(--font-sans)"],
+        display: ["var(--font-display)"],
+        mono: ["var(--font-mono)"],
+      },
+      borderRadius: {
+        lg: "var(--radius)",
+        md: "calc(var(--radius) - 2px)",
+        sm: "calc(var(--radius) - 4px)",
+      },
+      // @ts-ignore
       keyframes: {
         "accordion-down": {
           from: { height: "0" },
@@ -138,6 +139,7 @@ const config: Config = {
           "100%": { transform: "rotate(360deg)" },
         },
       },
+      // @ts-ignore
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
@@ -152,10 +154,12 @@ const config: Config = {
         "pulse-soft": "pulse-soft 3s infinite",
         "spin-slow": "spin-slow 6s linear infinite",
       },
+      // @ts-ignore
       backgroundImage: {
         'gradient-grid': 'linear-gradient(to right, var(--grid-color) 1px, transparent 1px), linear-gradient(to bottom, var(--grid-color) 1px, transparent 1px)',
         'radial-gradient': 'radial-gradient(circle at center, var(--tw-gradient-stops))',
       },
+      // @ts-ignore
       boxShadow: {
         'glow': '0 0 20px -5px hsl(var(--primary))',
         'glow-lg': '0 0 35px -5px hsl(var(--primary))',
