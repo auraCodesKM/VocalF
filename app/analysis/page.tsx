@@ -36,6 +36,9 @@ export default function AnalysisPage() {
   const reportService = new ReportService();
   const { toast } = useToast();
 
+  // State for final result to show in loader
+  const [analysisResult, setAnalysisResult] = useState<string | null>(null);
+
   // Loading states for multi-step loader
   const loadingStates = [
     { text: "Uploading voice recording..." },
@@ -246,6 +249,12 @@ export default function AnalysisPage() {
         await new Promise(resolve => setTimeout(resolve, minLoadingTime - elapsedTime));
       }
 
+      // Set the result to show in loader
+      setAnalysisResult(data.Prediction || "Voice analysis completed successfully");
+
+      // Wait 2 more seconds to show the completion message
+      await new Promise(resolve => setTimeout(resolve, 2000));
+
       setResult(data.Prediction)
       setPlotPath(data.PlotPath)
       setReportPath(data.ReportPath)
@@ -329,7 +338,13 @@ export default function AnalysisPage() {
     <Layout>
       <ProtectedRoute>
         {/* Multi-Step Loader for Analysis */}
-        <MultiStepLoader loadingStates={loadingStates} loading={loading} duration={2000} />
+        <MultiStepLoader
+          loadingStates={loadingStates}
+          loading={loading}
+          duration={2000}
+          loop={false}
+          finalResult={analysisResult}
+        />
 
         <div className="container py-8">
           <h1 className="text-3xl font-bold mb-8">Voice Analysis</h1>

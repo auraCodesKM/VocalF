@@ -53,27 +53,47 @@ interface LoadingState {
 const LoaderCore = ({
     loadingStates,
     value = 0,
+    finalResult,
 }: {
     loadingStates: LoadingState[];
     value?: number;
+    finalResult?: string | null;
 }) => {
     const progress = Math.round(((value + 1) / loadingStates.length) * 100);
+    const isComplete = value === loadingStates.length - 1;
 
     return (
         <div className="flex relative justify-start max-w-xl mx-auto flex-col mt-40">
-            {/* Progress Percentage */}
+            {/* Progress Percentage or Completion */}
             <div className="mb-6 text-center">
-                <motion.div
-                    key={progress}
-                    initial={{ scale: 0.8, opacity: 0 }}
-                    animate={{ scale: 1, opacity: 1 }}
-                    className="text-5xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent"
-                >
-                    {progress}%
-                </motion.div>
-                <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
-                    Processing your voice analysis...
-                </p>
+                {isComplete && finalResult ? (
+                    <motion.div
+                        initial={{ scale: 0.8, opacity: 0 }}
+                        animate={{ scale: 1, opacity: 1 }}
+                        className="space-y-4"
+                    >
+                        <div className="text-4xl font-bold text-green-600 dark:text-green-400">
+                            ✓ Analysis Complete!
+                        </div>
+                        <div className="text-xl text-gray-700 dark:text-gray-300 mt-4 p-4 bg-green-50 dark:bg-green-900/20 rounded-lg border-2 border-green-200 dark:border-green-700">
+                            {finalResult}
+                        </div>
+                    </motion.div>
+                ) : (
+                    <motion.div
+                        key={progress}
+                        initial={{ scale: 0.8, opacity: 0 }}
+                        animate={{ scale: 1, opacity: 1 }}
+                        className="text-5xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent"
+                    >
+                        {progress}%
+                    </motion.div>
+                )}
+                {!isComplete && (
+                    <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
+                        Processing your voice analysis...
+                    </p>
+                )}
             </div>
 
             {loadingStates.map((loadingState, index) => {
@@ -121,12 +141,14 @@ export const MultiStepLoader = ({
     loadingStates,
     loading,
     duration = 2000,
-    loop = true,
+    loop = false,
+    finalResult,
 }: {
     loadingStates: LoadingState[];
     loading?: boolean;
     duration?: number;
     loop?: boolean;
+    finalResult?: string | null;
 }) => {
     const [currentState, setCurrentState] = useState(0);
 
@@ -163,7 +185,7 @@ export const MultiStepLoader = ({
                     className="w-full h-full fixed inset-0 z-[100] flex items-center justify-center backdrop-blur-2xl"
                 >
                     <div className="h-96  relative">
-                        <LoaderCore value={currentState} loadingStates={loadingStates} />
+                        <LoaderCore value={currentState} loadingStates={loadingStates} finalResult={finalResult} />
                     </div>
 
                     <div className="bg-gradient-to-t inset-x-0 z-20 bottom-0 bg-white dark:bg-black h-full absolute [mask-image:radial-gradient(900px_at_center,transparent_30%,white)]" />
