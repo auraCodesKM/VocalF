@@ -73,12 +73,13 @@ export function Layout({ children, featuresRef }: LayoutProps) {
       <SmoothCursor />
 
       {/* Promotional Banner */}
-      <StickyBanner className="bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-600 text-white py-2 z-[60]" hideOnScroll={true}>
+      {/* Promotional Banner */}
+      <StickyBanner className="bg-indigo-600 text-white py-2 z-[60]" hideOnScroll={true}>
         <div className="flex items-center gap-2 text-sm font-medium">
           <span className="bg-white/20 px-2 py-0.5 rounded text-xs uppercase tracking-wider font-bold">New</span>
-          <span>AI-Powered Voice Analysis is now live!</span>
+          <span>Experience our advanced AI Voice Analysis engine.</span>
           <Link href="/analysis" className="underline underline-offset-4 hover:text-indigo-100 transition-colors ml-1">
-            Try it now →
+            Get Started →
           </Link>
         </div>
       </StickyBanner>
