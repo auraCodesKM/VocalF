@@ -22,6 +22,7 @@ import { Dialog, Transition } from "@headlessui/react"
 import Image from "next/image"
 import { SmoothCursor } from "@/components/ui/smooth-cursor"
 import { AnimatedThemeToggler } from "@/components/ui/animated-theme-toggler"
+import { StickyBanner } from "@/components/ui/sticky-banner"
 
 interface LayoutProps {
   children: ReactNode;
@@ -70,6 +71,17 @@ export function Layout({ children, featuresRef }: LayoutProps) {
     <div className="flex min-h-screen flex-col">
       {/* Custom Smooth Cursor - Site-wide */}
       <SmoothCursor />
+
+      {/* Promotional Banner */}
+      <StickyBanner className="bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-600 text-white py-2 z-[60]" hideOnScroll={true}>
+        <div className="flex items-center gap-2 text-sm font-medium">
+          <span className="bg-white/20 px-2 py-0.5 rounded text-xs uppercase tracking-wider font-bold">New</span>
+          <span>AI-Powered Voice Analysis is now live!</span>
+          <Link href="/analysis" className="underline underline-offset-4 hover:text-indigo-100 transition-colors ml-1">
+            Try it now →
+          </Link>
+        </div>
+      </StickyBanner>
 
       {/* Wrapper for centered navbar */}
       <div className="sticky top-0 z-50 w-full flex justify-center px-4 py-3 transition-all duration-300">
