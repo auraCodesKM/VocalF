@@ -36,7 +36,7 @@ export default function HomePage() {
       <Layout featuresRef={featuresRef}>
         {/* Hero Section with Background Boxes */}
         <section className="relative min-h-screen -mt-24 pt-32 pb-16 flex items-center overflow-hidden bg-white dark:bg-slate-900">
-          {/* Background Boxes - ensure it's visible */}
+          {/* Background Boxes - ensure it's visible and interactive */}
           <div className="absolute inset-0 w-full h-full z-0">
             <Boxes />
           </div>
@@ -44,10 +44,10 @@ export default function HomePage() {
           {/* Gradient overlay - very subtle to not hide boxes */}
           <div className="absolute inset-0 bg-gradient-to-b from-white/30 via-white/20 to-white/30 dark:from-slate-900/30 dark:via-slate-900/20 dark:to-slate-900/30 z-[1] pointer-events-none"></div>
 
-          {/* Content with higher z-index */}
-          <div className="container relative z-10">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-20 items-center">
-              <div className="space-y-10">
+          {/* Content with higher z-index - pointer-events-none on container, auto on children */}
+          <div className="container relative z-10 pointer-events-none">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-20 items-center pointer-events-none">
+              <div className="space-y-10 pointer-events-auto">
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -91,7 +91,7 @@ export default function HomePage() {
               </div>
 
               <motion.div
-                className="relative"
+                className="relative pointer-events-auto"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.3, duration: 0.8 }}
