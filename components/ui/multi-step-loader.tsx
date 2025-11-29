@@ -78,16 +78,16 @@ const LoaderCore = ({
 
             {loadingStates.map((loadingState, index) => {
                 const distance = Math.abs(index - value);
-                const opacity = Math.max(1 - distance * 0.2, 0);
+                const opacity = Math.max(1 - distance * 0.3, 0);
                 const IconComponent = stepIcons[index];
 
                 return (
                     <motion.div
                         key={index}
                         className={`text-left flex gap-3 mb-4 items-center`}
-                        initial={{ opacity: 0, y: -(value * 40) }}
-                        animate={{ opacity: opacity, y: -(value * 40) }}
-                        transition={{ duration: 0.5 }}
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: opacity }}
+                        transition={{ duration: 0.3 }}
                     >
                         <div className="flex-shrink-0">
                             {index > value && (
