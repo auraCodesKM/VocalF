@@ -4,8 +4,9 @@ import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 export const BoxesCore = ({ className, ...rest }: { className?: string }) => {
-    const rows = new Array(150).fill(1);
-    const cols = new Array(100).fill(1);
+    // Reduced for better performance
+    const rows = new Array(80).fill(1);
+    const cols = new Array(60).fill(1);
     const colors = [
         "hsl(270, 100%, 87%)",  // light purple
         "hsl(270, 100%, 80%)",  // medium purple
@@ -22,6 +23,7 @@ export const BoxesCore = ({ className, ...rest }: { className?: string }) => {
         <div
             style={{
                 transform: `translate(-40%,-60%) skewX(-48deg) skewY(14deg) scale(0.675) rotate(0deg) translateZ(0)`,
+                willChange: "transform",
             }}
             className={cn(
                 "absolute left-1/4 p-4 -top-1/4 flex  -translate-x-1/2 -translate-y-1/2 w-full h-full z-0 ",
@@ -38,13 +40,15 @@ export const BoxesCore = ({ className, ...rest }: { className?: string }) => {
                         <motion.div
                             whileHover={{
                                 backgroundColor: getRandomColor(),
-                                transition: { duration: 0 },
+                                transition: { duration: 0, ease: "linear" },
                             }}
                             animate={{
-                                transition: { duration: 2 },
+                                backgroundColor: "rgba(0,0,0,0)",
+                                transition: { duration: 0.15, ease: "linear" },
                             }}
                             key={`col` + j}
                             className="w-16 h-8 border-r border-t border-slate-300/40 dark:border-slate-700/60 relative cursor-pointer"
+                            style={{ willChange: "background-color" }}
                         >
                             {j % 2 === 0 && i % 2 === 0 ? (
                                 <svg
