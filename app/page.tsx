@@ -54,9 +54,9 @@ export default function HomePage() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5 }}
                 >
-                  <span className="inline-flex items-center gap-2 px-6 py-3 rounded-full mb-6 bg-gradient-to-r from-purple-600 via-indigo-600 to-purple-600 shadow-lg shadow-purple-500/50 hover:shadow-purple-500/70 transition-all duration-300 bg-[length:200%_100%] animate-[gradient_3s_ease_infinite]">
-                    <Sparkles className="h-5 w-5 text-white" />
-                    <span className="text-sm font-semibold text-white tracking-wide">
+                  <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 mb-6">
+                    <Sparkles className="h-4 w-4 text-purple-400" />
+                    <span className="text-sm font-medium text-gray-300">
                       Advanced Voice Analysis
                     </span>
                   </span>
