@@ -222,6 +222,10 @@ export default function AnalysisPage() {
     setReportFile(null)
 
     try {
+      // Ensure loader shows all 6 steps (6 steps × 2 seconds = 12 seconds minimum)
+      const minLoadingTime = 12000;
+      const startTime = Date.now();
+
       const formData = new FormData()
       formData.append("audio", file)
 
@@ -235,6 +239,13 @@ export default function AnalysisPage() {
       }
 
       const data = await response.json()
+
+      // Wait for minimum time if API was faster
+      const elapsedTime = Date.now() - startTime;
+      if (elapsedTime < minLoadingTime) {
+        await new Promise(resolve => setTimeout(resolve, minLoadingTime - elapsedTime));
+      }
+
       setResult(data.Prediction)
       setPlotPath(data.PlotPath)
       setReportPath(data.ReportPath)
