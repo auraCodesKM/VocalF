@@ -141,6 +141,7 @@ const config: Config = {
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        "gradient": "gradient 3s ease infinite",
         "slide-from-left": "slide-from-left 0.3s ease-out",
         "slide-to-left": "slide-to-left 0.3s ease-in",
         "slide-from-right": "slide-from-right 0.3s ease-out",
