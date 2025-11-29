@@ -6,6 +6,7 @@ import Link from "next/link"
 import { Sparkles, Mic, Upload, PlayCircle, Activity, ArrowRight, MessageSquare, Heart, Book, BrainCircuit, Users, ChevronRight, BadgeCheck, Volume2, Zap } from "lucide-react";
 import { HoverBorderGradient } from "@/components/ui/hover-border-gradient";
 import { Boxes } from "@/components/ui/background-boxes";
+import { FlickeringGrid } from "@/components/ui/flickering-grid";
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { motion } from "framer-motion"
@@ -136,11 +137,22 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* Features Section - Redesigned */}
-        <section className="relative py-24 sm:py-32">
-          {/* Background with subtle gradients */}
-          <div className="absolute inset-0 bg-gradient-to-b from-white via-indigo-50/30 to-white dark:from-gray-950 dark:via-indigo-950/5 dark:to-gray-950"></div>
-          <div className="absolute inset-0 bg-[url('/noise.png')] opacity-[0.02] mix-blend-soft-light"></div>
+        {/* Features Section - Redesigned with FlickeringGrid */}
+        <section className="relative py-24 sm:py-32 overflow-hidden bg-white dark:bg-slate-900">
+          {/* FlickeringGrid Background */}
+          <div className="absolute inset-0 z-0">
+            <FlickeringGrid
+              className="absolute inset-0"
+              squareSize={4}
+              gridGap={6}
+              color="rgb(147, 51, 234)"
+              maxOpacity={0.3}
+              flickerChance={0.3}
+            />
+          </div>
+
+          {/* Gradient overlay for better text visibility */}
+          <div className="absolute inset-0 bg-gradient-to-b from-white/ via-white/80 to-white/95 dark:from-slate-900/60 dark:via-slate-900/80 dark:to-slate-900/95 z-[1]"></div>
 
           <div className="container relative z-10 px-4 sm:px-6">
             {/* Section Header */}
