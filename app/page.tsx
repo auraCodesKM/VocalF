@@ -47,7 +47,7 @@ export default function HomePage() {
           {/* Content with higher z-index - pointer-events-none on container, auto on children */}
           <div className="container relative z-10 pointer-events-none">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-20 items-center pointer-events-none">
-              <div className="space-y-10 pointer-events-auto">
+              <div className="space-y-10">
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -55,7 +55,7 @@ export default function HomePage() {
                   className="mb-6"
                 >
                   <HoverBorderGradient
-                    containerClassName="rounded-full"
+                    containerClassName="rounded-full pointer-events-auto"
                     as="div"
                     className="dark:bg-black bg-white text-black dark:text-white flex items-center gap-2"
                   >
@@ -77,6 +77,7 @@ export default function HomePage() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.2, duration: 0.5 }}
+                  className="pointer-events-auto"
                 >
                   <Button
                     className="px-10 py-7 text-base font-medium bg-gradient-to-r from-indigo-700 to-indigo-800 hover:from-indigo-800 hover:to-indigo-900 text-white transition-all duration-300 shadow-xl hover:shadow-2xl hover:shadow-indigo-500/20 shadow-indigo-600/20 rounded-xl"
