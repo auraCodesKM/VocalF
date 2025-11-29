@@ -56,14 +56,10 @@ export default function HomePage() {
                   transition={{ duration: 0.5 }}
                   className="mb-6"
                 >
-                  <HoverBorderGradient
-                    containerClassName="rounded-full"
-                    as="div"
-                    className="bg-gradient-to-r from-purple-600/90 via-purple-500/90 to-indigo-600/90 dark:from-purple-600 dark:via-purple-500 dark:to-indigo-600 text-white flex items-center gap-2"
-                  >
-                    <Sparkles className="h-4 w-4" />
-                    <span className="text-sm font-medium">Advanced Voice Analysis</span>
-                  </HoverBorderGradient>
+                  <div className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-lg shadow-purple-500/50 hover:shadow-purple-500/70 transition-all duration-300">
+                    <Sparkles className="h-5 w-5" />
+                    <span className="text-sm font-semibold">Advanced Voice Analysis</span>
+                  </div>
 
                   <h1 className="text-6xl lg:text-8xl font-display font-bold tracking-tight mb-8 text-gray-900 dark:text-white leading-[1.1] text-shadow-sm">
                     Your Voice.<br />
