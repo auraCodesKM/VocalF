@@ -68,15 +68,15 @@ const config: Config = {
         'chart-4': "hsl(var(--chart-4))",
         'chart-5': "hsl(var(--chart-5))",
       },
-        sm: "calc(var(--radius) - 4px)",
-      },
-      fontFamily: {
-        sans: ["var(--font-sans)"],
-        display: ["var(--font-display)"],
-        mono: ["var(--font-mono)"],
-      },      borderRadius: {
-        lg: "var(--radius)",
-        md: "calc(var(--radius) - 2px)",
+      sm: "calc(var(--radius) - 4px)",
+    },
+    fontFamily: {
+      sans: ["var(--font-sans)"],
+      display: ["var(--font-display)"],
+      mono: ["var(--font-mono)"],
+    }, borderRadius: {
+      lg: "var(--radius)",
+      md: "calc(var(--radius) - 2px)",
 
       keyframes: {
         "accordion-down": {
@@ -86,6 +86,10 @@ const config: Config = {
         "accordion-up": {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: "0" },
+        },
+        "gradient": {
+          "0%, 100%": { backgroundPosition: "0% 50%" },
+          "50%": { backgroundPosition: "100% 50%" },
         },
         "slide-from-left": {
           "0%": { transform: "translateX(-100%)" },
