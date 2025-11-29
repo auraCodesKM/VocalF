@@ -63,7 +63,7 @@ const LoaderCore = ({
     const isComplete = value === loadingStates.length - 1;
 
     return (
-        <div className="flex relative justify-start max-w-xl mx-auto flex-col mt-40">
+        <div className="flex relative justify-start max-w-xl mx-auto flex-col mt-20 md:mt-40 px-4">
             {/* Progress Percentage or Completion */}
             <div className="mb-6 text-center">
                 {isComplete && finalResult ? (
@@ -72,10 +72,10 @@ const LoaderCore = ({
                         animate={{ scale: 1, opacity: 1 }}
                         className="space-y-4"
                     >
-                        <div className="text-4xl font-bold text-green-600 dark:text-green-400">
+                        <div className="text-2xl md:text-4xl font-bold text-green-600 dark:text-green-400">
                             ✓ Analysis Complete!
                         </div>
-                        <div className="text-xl text-gray-700 dark:text-gray-300 mt-4 p-4 bg-green-50 dark:bg-green-900/20 rounded-lg border-2 border-green-200 dark:border-green-700">
+                        <div className="text-base md:text-xl text-gray-700 dark:text-gray-300 mt-4 p-4 bg-green-50 dark:bg-green-900/20 rounded-lg border-2 border-green-200 dark:border-green-700 break-words">
                             {finalResult}
                         </div>
                     </motion.div>
@@ -84,13 +84,13 @@ const LoaderCore = ({
                         key={progress}
                         initial={{ scale: 0.8, opacity: 0 }}
                         animate={{ scale: 1, opacity: 1 }}
-                        className="text-5xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent"
+                        className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent"
                     >
                         {progress}%
                     </motion.div>
                 )}
                 {!isComplete && (
-                    <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
+                    <p className="text-xs md:text-sm text-gray-500 dark:text-gray-400 mt-2">
                         Processing your voice analysis...
                     </p>
                 )}
@@ -104,28 +104,28 @@ const LoaderCore = ({
                 return (
                     <motion.div
                         key={index}
-                        className={`text-left flex gap-3 mb-4 items-center`}
+                        className={`text-left flex gap-2 md:gap-3 mb-3 md:mb-4 items-center`}
                         initial={{ opacity: 0 }}
                         animate={{ opacity: opacity }}
                         transition={{ duration: 0.3 }}
                     >
                         <div className="flex-shrink-0">
                             {index > value && (
-                                <IconComponent className="h-5 w-5 text-gray-400 dark:text-gray-600" />
+                                <IconComponent className="h-4 w-4 md:h-5 md:w-5 text-gray-400 dark:text-gray-600" />
                             )}
                             {index <= value && index < value && (
-                                <CheckFilled className="h-5 w-5 text-green-500" />
+                                <CheckFilled className="h-4 w-4 md:h-5 md:w-5 text-green-500" />
                             )}
                             {index === value && (
-                                <IconComponent className="h-5 w-5 text-indigo-600 dark:text-indigo-400 animate-pulse" />
+                                <IconComponent className="h-4 w-4 md:h-5 md:w-5 text-indigo-600 dark:text-indigo-400 animate-pulse" />
                             )}
                         </div>
                         <span
-                            className={`text-base ${value === index
-                                ? "text-black dark:text-white font-medium"
-                                : value > index
-                                    ? "text-green-600 dark:text-green-400"
-                                    : "text-gray-500 dark:text-gray-500"
+                            className={`text-sm md:text-base ${value === index
+                                    ? "text-black dark:text-white font-medium"
+                                    : value > index
+                                        ? "text-green-600 dark:text-green-400"
+                                        : "text-gray-500 dark:text-gray-500"
                                 }`}
                         >
                             {loadingState.text}
