@@ -10,6 +10,7 @@ import { FlickeringGrid } from "@/components/ui/flickering-grid";
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { motion } from "framer-motion"
+import { BackgroundBeams } from "@/components/ui/background-beams";
 import { useAuth } from "@/lib/auth-context"
 import { HeadMetadata } from "@/components/head-metadata"
 
@@ -435,22 +436,19 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* Testimonials Section */}
-        <section className="relative py-20 sm:py-28 overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-b from-indigo-50/50 to-white dark:from-gray-900/50 dark:to-gray-950"></div>
-          <div className="absolute inset-0 bg-[url('/noise.png')] opacity-[0.02] mix-blend-soft-light"></div>
+        {/* Testimonials Section with Background Beams */}
+        <section className="relative py-24 sm:py-32 overflow-hidden bg-slate-950">
+          <BackgroundBeams className="opacity-40" />
 
           <div className="container relative z-10 px-4 sm:px-6">
-            <div className="max-w-3xl mx-auto text-center mb-16">
-              <div className="inline-block">
-                <div className="px-3 py-1 bg-indigo-100/80 dark:bg-indigo-900/30 text-indigo-800 dark:text-indigo-300 text-xs font-medium tracking-wide rounded-full mb-4">
-                  Trusted by Professionals
-                </div>
+            <div className="max-w-3xl mx-auto text-center mb-16 md:mb-24">
+              <div className="inline-flex items-center justify-center px-3 py-1 mb-4 rounded-full bg-indigo-900/30 text-indigo-300 text-xs font-medium tracking-wide border border-indigo-800/50">
+                Trusted by Professionals
               </div>
-              <h2 className="text-3xl md:text-4xl font-display font-semibold text-gray-900 dark:text-white mb-6">
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-semibold text-white mb-6 tracking-tight">
                 Transforming Vocal Health Assessment
               </h2>
-              <p className="text-lg text-gray-600 dark:text-gray-300">
+              <p className="text-lg text-gray-300 max-w-2xl mx-auto leading-relaxed">
                 Join medical professionals worldwide who trust our platform for fast, accurate vocal analysis
               </p>
             </div>
