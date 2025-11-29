@@ -54,12 +54,12 @@ export default function HomePage() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5 }}
                 >
-                  <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 mb-6">
+                  <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-purple-500/20 via-purple-600/20 to-indigo-500/20 backdrop-blur-sm border border-purple-400/30 mb-6 shadow-lg shadow-purple-500/20">
                     <Sparkles className="h-4 w-4 text-purple-400" />
-                    <span className="text-sm font-medium text-gray-300">
+                    <span className="text-sm font-medium bg-gradient-to-r from-purple-300 to-purple-400 bg-clip-text text-transparent">
                       Advanced Voice Analysis
                     </span>
-                  </span>
+                  </div>
 
                   <h1 className="text-6xl lg:text-8xl font-display font-bold tracking-tight mb-8 text-gray-900 dark:text-white leading-[1.1] text-shadow-sm">
                     Your Voice.<br />
