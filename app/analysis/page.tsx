@@ -209,88 +209,78 @@ export default function AnalysisPage() {
     if (!file || !user) {
       toast({
         title: "Error",
-        description: !file ? "Please upload or record an audio file first." : "Please sign in to analyze audio.",
+        description: "Please upload or record a .wav file first and ensure you're logged in",
         variant: "destructive"
       });
       return;
     }
 
-    setLoading(true);
-    setResult(null);
-    setPlotPath(null);
-    setReportPath(null);
-    setReportFile(null);
-
-    const formData = new FormData();
-    formData.append("file", file);
+    setLoading(true)
+    setResult(null)
+    setPlotPath(null)
+    setReportPath(null)
+    setReportFile(null)
 
     try {
-      // Ensure loader shows for at least 18 seconds (6 steps × 3s)
-      const minLoadingTime = 18000;
-      const startTime = Date.now();
+      const formData = new FormData()
+      formData.append("audio", file)
 
       const response = await fetch(API_ENDPOINTS.AUDIO, {
         method: "POST",
         body: formData,
-      });
+      })
 
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        throw new Error(`HTTP error! status: ${response.status}`)
       }
 
-      const data = await response.json();
+      const data = await response.json()
+      setResult(data.Prediction)
+      setPlotPath(data.PlotPath)
+      setReportPath(data.ReportPath)
 
-      // Wait for minimum loading time if response was faster
-      const elapsedTime = Date.now() - startTime;
-      if (elapsedTime < minLoadingTime) {
-        await new Promise(resolve => setTimeout(resolve, minLoadingTime - elapsedTime));
+      // Fetch the generated report file
+      const reportResponse = await fetch(API_ENDPOINTS.REPORT(data.ReportPath))
+      const reportBlob = await reportResponse.blob()
+      const reportFile = new File([reportBlob], `voice_analysis_${Date.now()}.pdf`, { type: 'application/pdf' })
+      setReportFile(reportFile)
+
+      // Store report on IPFS and Firebase
+      try {
+        toast({
+          title: "Processing",
+          description: "Storing your report securely...",
+        });
+
+        const report = await reportService.storeReport(
+          user.uid,
+          reportFile,
+          `Voice Analysis Report - ${new Date().toLocaleDateString()}`
+        );
+
+        toast({
+          title: "Success",
+          description: "Report stored successfully on IPFS and in your account.",
+        });
+
+        console.log('Report stored successfully:', report);
+      } catch (error) {
+        console.error('Error storing report:', error);
+        toast({
+          title: "Warning",
+          description: "Report generated but there was an error storing it. You can still download it below.",
+          variant: "destructive"
+        });
       }
-
-      if (data.report_path) {
-        const reportResponse = await fetch(API_ENDPOINTS.REPORT(data.report_path));
-        if (reportResponse.ok) {
-          const reportBlob = await reportResponse.blob();
-          const reportFileName = data.report_path.split('/').pop() || 'report.txt';
-          const reportFileObj = new File([reportBlob], reportFileName, { type: 'text/plain' });
-          setReportFile(reportFileObj);
-          setReportPath(data.report_path);
-
-          if (user) {
-            try {
-              const ipfsHash = await reportService.saveReport(reportFileObj, user.uid);
-              console.log("Report saved to IPFS with hash:", ipfsHash);
-              toast({
-                title: "Success",
-                description: "Report saved to blockchain successfully!",
-              });
-            } catch (error) {
-              console.error("Error saving report to IPFS:", error);
-              toast({
-                title: "Warning",
-                description: "Analysis complete, but report could not be saved to blockchain.",
-                variant: "destructive"
-              });
-            }
-          }
-        }
-      }
-
-      setResult(data.result || "Analysis complete");
-      setPlotPath(data.plot_path || null);
-
-      toast({
-        title: "Success",
-        description: "Audio analysis completed successfully!",
-      });
     } catch (error) {
-      console.error("Error analyzing audio:", error);
+      console.error("Error:", error)
       toast({
         title: "Error",
-        description: error instanceof Error ? error.message : "Error analyzing audio. Please try again.",
+        description: "Error analyzing audio. Please try again.",
         variant: "destructive"
       });
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
   }
 
@@ -328,7 +318,7 @@ export default function AnalysisPage() {
     <Layout>
       <ProtectedRoute>
         {/* Multi-Step Loader for Analysis */}
-        <MultiStepLoader loadingStates={loadingStates} loading={loading} duration={3000} />
+        <MultiStepLoader loadingStates={loadingStates} loading={loading} duration={2000} />
 
         <div className="container py-8">
           <h1 className="text-3xl font-bold mb-8">Voice Analysis</h1>
