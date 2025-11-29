@@ -318,7 +318,7 @@ export default function AnalysisPage() {
     <Layout>
       <ProtectedRoute>
         {/* Multi-Step Loader for Analysis */}
-        <MultiStepLoader loadingStates={loadingStates} loading={loading} duration={4000} />
+        <MultiStepLoader loadingStates={loadingStates} loading={loading} duration={3000} />
 
         <div className="container py-8">
           <h1 className="text-3xl font-bold mb-8">Voice Analysis</h1>
