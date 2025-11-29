@@ -57,7 +57,7 @@ export default function HomePage() {
                   <HoverBorderGradient
                     containerClassName="rounded-full pointer-events-auto"
                     as="div"
-                    className="bg-white/10 dark:bg-white/5 backdrop-blur-md text-gray-800 dark:text-white flex items-center gap-2 border border-white/20"
+                    className="!bg-white/10 dark:!bg-white/5 backdrop-blur-md text-gray-800 dark:text-white flex items-center gap-2 border border-white/20"
                   >
                     <Sparkles className="h-4 w-4" />
                     <span className="text-sm font-medium">Advanced Voice Analysis</span>
