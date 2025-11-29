@@ -34,30 +34,40 @@ const LoaderCore = ({
                 />
             </div>
 
-            {/* Current Step */}
-            <div className="w-full space-y-4">
+            {/* All Steps Visible */}
+            <div className="w-full space-y-3">
                 {loadingStates.map((loadingState, index) => {
                     const isActive = index === value;
                     const isComplete = index < value;
-
-                    if (!isActive && !isComplete) return null;
+                    const isPending = index > value;
 
                     return (
                         <motion.div
                             key={index}
-                            initial={{ opacity: 0, y: 10 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            exit={{ opacity: 0, y: -10 }}
-                            className="flex items-center gap-3"
+                            initial={{ opacity: 0, x: -20 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ delay: index * 0.1, duration: 0.4 }}
+                            className={`flex items-center gap-3 p-3 rounded-lg transition-all duration-300 ${isActive
+                                    ? 'bg-indigo-50 dark:bg-indigo-900/20 border-l-4 border-indigo-600'
+                                    : isComplete
+                                        ? 'bg-green-50 dark:bg-green-900/10 border-l-4 border-green-600'
+                                        : 'bg-gray-50 dark:bg-gray-800/30 border-l-4 border-gray-300 dark:border-gray-700'
+                                }`}
                         >
-                            {isComplete ? (
-                                <CheckCircle2 className="h-5 w-5 text-green-600 flex-shrink-0" />
-                            ) : (
-                                <Loader2 className="h-5 w-5 text-indigo-600 animate-spin flex-shrink-0" />
-                            )}
-                            <p className={`text-base ${isComplete
-                                    ? 'text-gray-600 dark:text-gray-400'
-                                    : 'text-gray-900 dark:text-white font-medium'
+                            <div className="flex-shrink-0">
+                                {isComplete ? (
+                                    <CheckCircle2 className="h-5 w-5 text-green-600" />
+                                ) : isActive ? (
+                                    <Loader2 className="h-5 w-5 text-indigo-600 animate-spin" />
+                                ) : (
+                                    <div className="h-5 w-5 rounded-full border-2 border-gray-400 dark:border-gray-600" />
+                                )}
+                            </div>
+                            <p className={`text-base transition-colors duration-300 ${isActive
+                                    ? 'text-gray-900 dark:text-white font-semibold'
+                                    : isComplete
+                                        ? 'text-gray-700 dark:text-gray-300'
+                                        : 'text-gray-500 dark:text-gray-500'
                                 }`}>
                                 {loadingState.text}
                             </p>
@@ -77,7 +87,7 @@ const LoaderCore = ({
 export const MultiStepLoader = ({
     loadingStates,
     loading,
-    duration = 2000,
+    duration = 3500,
     loop = false,
 }: {
     loadingStates: LoadingState[];
