@@ -474,8 +474,8 @@ export default function HomePage() {
                   avatar: "https://randomuser.me/api/portraits/women/68.jpg"
                 }
               ].map((testimonial, index) => (
-                <div key={index} className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8 border border-gray-100 dark:border-gray-700/50 relative group hover:shadow-xl transition-all duration-300">
-                  <div className="absolute top-0 right-0 w-20 h-20 bg-indigo-100/50 dark:bg-indigo-900/20 rounded-bl-3xl rounded-tr-2xl -z-10"></div>
+                <div key={index} className="bg-white/5 backdrop-blur-sm rounded-2xl shadow-xl p-8 border border-white/10 relative group hover:bg-white/10 transition-all duration-300">
+                  <div className="absolute top-0 right-0 w-20 h-20 bg-indigo-500/10 rounded-bl-3xl rounded-tr-2xl -z-10"></div>
 
                   <div className="mb-6">
                     {Array(5).fill(0).map((_, i) => (
@@ -485,15 +485,15 @@ export default function HomePage() {
                     ))}
                   </div>
 
-                  <blockquote className="text-gray-700 dark:text-gray-300 mb-6 leading-relaxed">
+                  <blockquote className="text-gray-300 mb-6 leading-relaxed">
                     "{testimonial.quote}"
                   </blockquote>
 
                   <div className="flex items-center">
-                    <img src={testimonial.avatar} alt={testimonial.author} className="w-12 h-12 rounded-full object-cover mr-4 ring-2 ring-indigo-100 dark:ring-indigo-900/50" />
+                    <img src={testimonial.avatar} alt={testimonial.author} className="w-12 h-12 rounded-full object-cover mr-4 ring-2 ring-indigo-500/30" />
                     <div>
-                      <div className="font-medium text-gray-900 dark:text-white">{testimonial.author}</div>
-                      <div className="text-sm text-indigo-600 dark:text-indigo-400">{testimonial.role}</div>
+                      <div className="font-medium text-white">{testimonial.author}</div>
+                      <div className="text-sm text-indigo-400">{testimonial.role}</div>
                     </div>
                   </div>
                 </div>
