@@ -3,7 +3,7 @@
 import React, { useRef, useEffect, useState } from "react"
 import { Layout } from "@/components/layout"
 import Link from "next/link"
-import { Sparkles, Mic, Upload, PlayCircle, Activity } from "lucide-react";
+import { Sparkles, Mic, Upload, PlayCircle, Activity, ArrowRight, MessageSquare, Heart, Book, BrainCircuit, Users, ChevronRight, BadgeCheck, Volume2, Zap } from "lucide-react";
 import { HoverBorderGradient } from "@/components/ui/hover-border-gradient";
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
