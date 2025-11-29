@@ -19,60 +19,60 @@ body {
   .text-balance {
     text-wrap: balance;
   }
-  
+
   .text-gradient {
     @apply bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-indigo-400 animate-gradient-shift;
     background-size: 200% auto;
   }
-  
+
   .text-shadow-sm {
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
   }
-  
+
   .text-shadow {
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   }
-  
+
   .text-shadow-md {
     text-shadow: 0 4px 8px rgba(0, 0, 0, 0.12), 0 2px 4px rgba(0, 0, 0, 0.08);
   }
-  
+
   .bg-grid {
     --grid-color: rgba(79, 70, 229, 0.05);
     @apply bg-gradient-grid;
     background-size: 30px 30px;
   }
-  
+
   .mask-radial-gradient {
     -webkit-mask-image: radial-gradient(circle at center, black, transparent 80%);
     mask-image: radial-gradient(circle at center, black, transparent 80%);
   }
-  
+
   .backdrop-blur-xs {
     backdrop-filter: blur(2px);
   }
-  
+
   .glass-panel {
     @apply bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border border-white/20 dark:border-slate-700/30 shadow-lg;
   }
-  
+
   .glass-card {
     @apply rounded-xl glass-panel;
   }
-  
+
   .shadow-soft {
     box-shadow: 0 1px 3px rgba(0,0,0,0.05), 0 10px 25px -5px rgba(0,0,0,0.05), 0 20px 48px -20px rgba(0,0,0,0.12);
   }
-  
+
   .shadow-hard {
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
   }
-  
+
   .gradient-border {
     position: relative;
     border-radius: 0.75rem;
   }
-  
+
   .gradient-border::before {
     content: "";
     position: absolute;
@@ -86,7 +86,7 @@ body {
     mask-composite: exclude;
     pointer-events: none;
   }
-  
+
   .animate-gradient-shift {
     animation: gradientShift 8s ease infinite;
   }
@@ -140,7 +140,7 @@ body {
     --sidebar-border: 214.3 31.8% 91.4%;
     --sidebar-ring: 201 100% 45%;
   }
-  
+
   .dark {
     --background: 222.2 84% 4.9%;
     --foreground: 210 40% 98%;
@@ -199,4 +199,19 @@ body {
   .container {
     @apply px-4 md:px-6 lg:px-8 max-w-7xl mx-auto;
   }
+}
+
+/* Global cursor hiding for custom cursor */
+*, *::before, *::after {
+  cursor: none !important;
+}
+
+/* Allow pointer events on interactive elements but keep cursor hidden */
+button, a, input, textarea, select, [role="button"], [tabindex]:not([tabindex="-1"]) {
+  cursor: none !important;
+}
+
+::view-transition-old(root), ::view-transition-new(root) {
+    animation: none;
+    mix-blend-mode: normal;
 }
