@@ -276,7 +276,7 @@ export default function AnalysisPage() {
           reportPath: data.ReportPath,
           plotPath: data.PlotPath,
           class: data.Prediction,
-          risk_level: data.RiskLevel || 'Unknown',
+          riskLevel: data.RiskLevel || 'Unknown',
           prediction: data.Prediction,
         });
 
