@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Layout } from "@/components/layout"
 import { ProtectedRoute } from "@/components/protected-route"
 import { Button } from "@/components/ui/button"
@@ -10,9 +10,8 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { useAuth } from "@/lib/auth-context"
-import { logOut } from "@/lib/firebase"
+import { logOut, resetPassword } from "@/lib/supabase"
 import { useRouter } from "next/navigation"
-import { getAuth, sendPasswordResetEmail } from "firebase/auth"
 
 export default function ProfilePage() {
   const { user } = useAuth()
@@ -50,11 +49,14 @@ export default function ProfilePage() {
 
   const handleSendPasswordResetEmail = async () => {
     try {
-      const auth = getAuth()
       if (user?.email) {
-        await sendPasswordResetEmail(auth, user.email)
-        setResetEmailSent(true)
-        setSuccess("Password reset email sent. Check your inbox.")
+        const { error } = await resetPassword(user.email)
+        if (error) {
+          setError(error)
+        } else {
+          setResetEmailSent(true)
+          setSuccess("Password reset email sent. Check your inbox.")
+        }
       }
     } catch (err: any) {
       setError(err.message || "Failed to send reset email")
@@ -67,13 +69,13 @@ export default function ProfilePage() {
         <div className="container py-12">
           <div className="max-w-2xl mx-auto space-y-8">
             <h1 className="text-3xl font-bold tracking-tight">Your Profile</h1>
-            
+
             <Tabs defaultValue="profile" className="w-full">
               <TabsList className="grid w-full grid-cols-2">
                 <TabsTrigger value="profile">Profile Information</TabsTrigger>
                 <TabsTrigger value="security">Security</TabsTrigger>
               </TabsList>
-              
+
               <TabsContent value="profile" className="space-y-4 mt-4">
                 <Card>
                   <CardHeader>
@@ -96,11 +98,11 @@ export default function ProfilePage() {
                     <form onSubmit={handleUpdateProfile} className="space-y-4">
                       <div className="space-y-2">
                         <Label htmlFor="email">Email</Label>
-                        <Input 
-                          id="email" 
-                          type="email" 
-                          value={user?.email || ""} 
-                          disabled 
+                        <Input
+                          id="email"
+                          type="email"
+                          value={user?.email || ""}
+                          disabled
                         />
                         <p className="text-sm text-muted-foreground">
                           Your email cannot be changed
@@ -108,10 +110,10 @@ export default function ProfilePage() {
                       </div>
                       <div className="space-y-2">
                         <Label htmlFor="displayName">Display Name</Label>
-                        <Input 
-                          id="displayName" 
-                          value={displayName} 
-                          onChange={(e) => setDisplayName(e.target.value)} 
+                        <Input
+                          id="displayName"
+                          value={displayName}
+                          onChange={(e) => setDisplayName(e.target.value)}
                         />
                       </div>
                       <Button type="submit" disabled={saving}>
@@ -121,7 +123,7 @@ export default function ProfilePage() {
                   </CardContent>
                 </Card>
               </TabsContent>
-              
+
               <TabsContent value="security" className="space-y-4 mt-4">
                 <Card>
                   <CardHeader>
@@ -136,15 +138,15 @@ export default function ProfilePage() {
                       <p className="text-sm text-muted-foreground">
                         For security reasons, you'll receive an email with instructions to reset your password.
                       </p>
-                      <Button 
-                        variant="outline" 
+                      <Button
+                        variant="outline"
                         onClick={handleSendPasswordResetEmail}
                         disabled={resetEmailSent}
                       >
                         {resetEmailSent ? "Email Sent" : "Send Password Reset Email"}
                       </Button>
                     </div>
-                    
+
                     <div className="space-y-2 pt-4 border-t">
                       <h3 className="font-medium">Sign Out</h3>
                       <p className="text-sm text-muted-foreground">
@@ -154,7 +156,7 @@ export default function ProfilePage() {
                         Sign Out
                       </Button>
                     </div>
-                    
+
                     <div className="space-y-2 pt-4 border-t">
                       <h3 className="font-medium text-red-600">Delete Account</h3>
                       <p className="text-sm text-muted-foreground">

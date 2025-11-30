@@ -1,70 +1,36 @@
-"use client"
+'use client'
 
-import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { handleRedirectResult } from '@/lib/firebase';
-import { useAuth } from '@/lib/auth-context';
+import { useEffect } from 'react'
+import { useRouter } from 'next/navigation'
+import { supabase } from '@/lib/supabase'
 
-export default function AuthCallbackPage() {
-  const router = useRouter();
-  const { user } = useAuth();
-  const [status, setStatus] = useState("Completing authentication...");
+export default function AuthCallback() {
+  const router = useRouter()
 
   useEffect(() => {
-    const processRedirect = async () => {
-      try {
-        console.log("Auth callback: Processing redirect result");
-        const { user, error } = await handleRedirectResult();
+    const handleCallback = async () => {
+      const { error } = await supabase.auth.getSession()
 
-        if (error) {
-          console.error("Auth callback: Error handling redirect:", error);
-          setStatus("Authentication failed. Redirecting to sign-in page...");
-          setTimeout(() => {
-            router.push('/signin');
-          }, 2000);
-          return;
-        }
-
-        if (user) {
-          console.log("Auth callback: Successfully authenticated:", user.email);
-          setStatus("Authentication successful! Redirecting to dashboard...");
-          setTimeout(() => {
-            router.push('/dashboard');
-          }, 1000);
-        } else {
-          console.log("Auth callback: No redirect result found");
-          setStatus("No authentication data found. Redirecting to sign-in page...");
-          setTimeout(() => {
-            router.push('/signin');
-          }, 2000);
-        }
-      } catch (error) {
-        console.error("Auth callback: Unexpected error:", error);
-        setStatus("Something went wrong. Redirecting to sign-in page...");
-        setTimeout(() => {
-          router.push('/signin');
-        }, 2000);
+      if (error) {
+        console.error('Error during auth callback:', error)
+        router.push('/signin?error=auth_failed')
+      } else {
+        router.push('/dashboard')
       }
-    };
-
-    // If already signed in, go directly to dashboard
-    if (user) {
-      console.log("Auth callback: User already signed in");
-      router.push('/dashboard');
-    } else {
-      processRedirect();
     }
-  }, [router, user]);
+
+    handleCallback()
+  }, [router])
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-background">
-      <div className="text-center space-y-6">
-        <h1 className="text-2xl font-bold">VocalWell.ai</h1>
-        <div className="animate-pulse">
-          <p>{status}</p>
+    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-indigo-50 to-purple-50 dark:from-gray-900 dark:to-gray-800">
+      <div className="text-center">
+        <div className="mb-4">
+          <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-indigo-600 mx-auto"></div>
         </div>
-        <div className="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto"></div>
+        <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">Completing sign in...</h2>
+        <p className="text-gray-600 dark:text-gray-300">Please wait while we redirect you</p>
       </div>
     </div>
-  );
+  )
 }
