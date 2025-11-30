@@ -231,7 +231,7 @@ export default function AnalysisPage() {
       const formData = new FormData()
       formData.append("audio", file)
 
-      const response = await fetch(API_ENDPOINTS.AUDIO, {
+      const response = await fetch(API_ENDPOINTS.ANALYZE, {
         method: "POST",
         body: formData,
       })
