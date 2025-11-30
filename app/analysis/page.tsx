@@ -254,55 +254,49 @@ export default function AnalysisPage() {
       // Wait 2 more seconds to show the completion message
       await new Promise(resolve => setTimeout(resolve, 2000));
 
+      // Set the results (this will make them display)
       setResult(data.Prediction)
       setPlotPath(data.PlotPath)
       setReportPath(data.ReportPath)
 
-      // Fetch the generated report file
-      const reportResponse = await fetch(API_ENDPOINTS.REPORT(data.ReportPath))
-      const reportBlob = await reportResponse.blob()
-      const reportFile = new File([reportBlob], `voice_analysis_${Date.now()}.pdf`, { type: 'application/pdf' })
-      setReportFile(reportFile)
+      // Stop loading FIRST so results can display
+      setLoading(false)
 
-      // Store report in Supabase
+      // Fetch and store report in background (don't block UI)
       try {
-        toast({
-          title: "Processing",
-          description: "Storing your report securely...",
-        });
+        const reportResponse = await fetch(API_ENDPOINTS.REPORT(data.ReportPath))
+        const reportBlob = await reportResponse.blob()
+        const reportFile = new File([reportBlob], `voice_analysis_${Date.now()}.pdf`, { type: 'application/pdf' })
+        setReportFile(reportFile)
 
-        const report = await saveReport({
-          userId: user.id,
-          reportPath: data.ReportPath,
-          plotPath: data.PlotPath,
-          class: data.Prediction,
-          riskLevel: data.RiskLevel || 'Unknown',
-          prediction: data.Prediction,
-        });
+        // Store report in Supabase
+        try {
+          const report = await saveReport({
+            userId: user.id,
+            reportPath: data.ReportPath,
+            plotPath: data.PlotPath,
+            class: data.Prediction,
+            riskLevel: data.RiskLevel || 'Unknown',
+            prediction: data.Prediction,
+          });
 
-        toast({
-          title: "Success",
-          description: "Report stored successfully in your account.",
-        });
-
-        console.log('Report stored successfully:', report);
+          console.log('Report stored successfully:', report);
+        } catch (error) {
+          console.error('Error storing report:', error);
+          // Don't show error toast - report is still downloadable
+        }
       } catch (error) {
-        console.error('Error storing report:', error);
-        toast({
-          title: "Warning",
-          description: "Report generated but there was an error storing it. You can still download it below.",
-          variant: "destructive"
-        });
+        console.error('Error fetching report file:', error);
+        // Results are still shown, just report file isn't available
       }
     } catch (error) {
       console.error("Error:", error)
+      setLoading(false) // Ensure loading stops even on error
       toast({
         title: "Error",
         description: "Error analyzing audio. Please try again.",
         variant: "destructive"
       });
-    } finally {
-      setLoading(false)
     }
   }
 
