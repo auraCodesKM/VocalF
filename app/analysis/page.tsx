@@ -8,7 +8,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Download, Eye, Mic, Upload, StopCircle, PlayCircle, Activity } from "lucide-react"
 import { API_ENDPOINTS } from "@/lib/config"
 import { useAuth } from "@/lib/auth-context"
-import { ReportService } from "@/lib/reportService"
+import { saveReport } from "@/lib/reportService"
 import { useToast } from "@/components/ui/use-toast"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { motion, AnimatePresence } from "framer-motion"
@@ -33,7 +33,6 @@ export default function AnalysisPage() {
   const [reportPath, setReportPath] = useState<string | null>(null)
   const [reportFile, setReportFile] = useState<File | null>(null)
   const { user } = useAuth();
-  const reportService = new ReportService();
   const { toast } = useToast();
 
   // State for final result to show in loader
