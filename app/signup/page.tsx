@@ -1,194 +1,77 @@
 "use client"
 
-import { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import Link from 'next/link';
 import { Layout } from '@/components/layout';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { Label } from '@/components/ui/label';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Checkbox } from '@/components/ui/checkbox';
-import { registerWithEmailAndPassword, signInWithGoogle } from '@/lib/supabase';
+import { signInWithGoogle } from '@/lib/supabase';
 import { useAuth } from '@/lib/auth-context';
 
 export default function SignUpPage() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [acceptTerms, setAcceptTerms] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const { user } = useAuth();
 
   // Redirect if already logged in
-  if (user) {
-    router.push('/dashboard');
-    return null;
-  }
-
-  const handleEmailSignUp = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    setError(null);
-
-    if (!email || !password || !confirmPassword) {
-      setError('Please fill in all fields');
-      setLoading(false);
-      return;
+  useEffect(() => {
+    if (user) {
+      router.push('/dashboard');
     }
-
-    if (password !== confirmPassword) {
-      setError('Passwords do not match');
-      setLoading(false);
-      return;
-    }
-
-    if (!acceptTerms) {
-      setError('Please accept the terms and conditions');
-      setLoading(false);
-      return;
-    }
-
-    try {
-      const { user, error } = await registerWithEmailAndPassword(email, password);
-
-      if (error) {
-        setError(error);
-        setLoading(false);
-        return;
-      }
-
-      if (user) {
-        router.push('/dashboard');
-      }
-    } catch (err) {
-      setError('An unexpected error occurred');
-      console.error(err);
-    } finally {
-      setLoading(false);
-    }
-  };
+  }, [user, router]);
 
   const handleGoogleSignUp = async () => {
-    // Don't do anything if already in loading state
     if (loading) return;
-
     setLoading(true);
     setError(null);
 
-    if (!acceptTerms) {
-      setError('Please accept the terms and conditions');
-      setLoading(false);
-      return;
-    }
-
     try {
-      console.log("Starting Google sign-up process");
       const result = await signInWithGoogle();
 
       if (result.error) {
-        console.error("Google sign-up returned error:", result.error);
         setError(result.error);
         setLoading(false);
         return;
       }
 
       // Supabase OAuth will redirect to /auth/callback
-      // No need to manually redirect here
     } catch (err) {
-      console.error("Unexpected error during Google sign-up:", err);
-      setError("An unexpected error occurred. Please try again later.");
+      console.error("Error during Google sign-up:", err);
+      setError("An unexpected error occurred. Please try again.");
       setLoading(false);
     }
   };
+
+  // Don't render anything if we're already logged in
+  if (user) {
+    return null;
+  }
 
   return (
     <Layout>
       <div className="container max-w-md py-24">
         <Card>
-          <CardHeader className="space-y-1">
-            <CardTitle className="text-2xl font-bold">Create an account</CardTitle>
+          <CardHeader className="space-y-1 text-center">
+            <CardTitle className="text-3xl font-bold">Get Started</CardTitle>
             <CardDescription>
-              Enter your email below to create your account
+              Create your VocalWell.ai account with Google
             </CardDescription>
           </CardHeader>
-          <CardContent className="space-y-4">
+          <CardContent className="space-y-4 pt-6">
             {error && (
               <Alert variant="destructive">
                 <AlertDescription>{error}</AlertDescription>
               </Alert>
             )}
-            <form onSubmit={handleEmailSignUp} className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="email">Email</Label>
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder="name@example.com"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="password">Password</Label>
-                <Input
-                  id="password"
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="confirmPassword">Confirm Password</Label>
-                <Input
-                  id="confirmPassword"
-                  type="password"
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                  required
-                />
-              </div>
-              <div className="flex items-center space-x-2">
-                <Checkbox
-                  id="terms"
-                  checked={acceptTerms}
-                  onCheckedChange={(checked) => setAcceptTerms(checked === true)}
-                />
-                <label
-                  htmlFor="terms"
-                  className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                >
-                  I accept the{" "}
-                  <Link href="/terms" className="text-primary hover:underline">
-                    terms and conditions
-                  </Link>
-                </label>
-              </div>
-              <Button type="submit" className="w-full" disabled={loading}>
-                {loading ? "Creating account..." : "Create account"}
-              </Button>
-            </form>
-            <div className="relative">
-              <div className="absolute inset-0 flex items-center">
-                <span className="w-full border-t" />
-              </div>
-              <div className="relative flex justify-center text-xs uppercase">
-                <span className="bg-background px-2 text-muted-foreground">
-                  Or continue with
-                </span>
-              </div>
-            </div>
+
             <Button
               variant="outline"
-              className="w-full flex items-center justify-center gap-2 border-gray-300 hover:bg-gray-50"
+              className="w-full h-12 flex items-center justify-center gap-3 border-2 hover:bg-gray-50 dark:hover:bg-gray-800"
               onClick={handleGoogleSignUp}
               disabled={loading}
-              type="button" // Explicitly set type to button to prevent form submission
+              type="button"
             >
               <svg className="h-5 w-5" viewBox="0 0 24 24">
                 <path
@@ -208,19 +91,27 @@ export default function SignUpPage() {
                   fill="#EA4335"
                 />
               </svg>
-              <span className="font-medium">{loading ? "Signing up..." : "Sign up with Google"}</span>
+              <span className="font-medium text-base">
+                {loading ? "Creating account..." : "Continue with Google"}
+              </span>
             </Button>
-          </CardContent>
-          <CardFooter className="flex justify-center">
-            <div className="text-sm text-muted-foreground">
+
+            <p className="text-center text-sm text-muted-foreground pt-4">
               Already have an account?{" "}
-              <Link href="/signin" className="text-primary hover:underline">
+              <a href="/signin" className="font-medium text-primary hover:underline">
                 Sign in
-              </Link>
-            </div>
-          </CardFooter>
+              </a>
+            </p>
+
+            <p className="text-center text-xs text-muted-foreground pt-2">
+              By continuing, you agree to our{" "}
+              <a href="/terms" className="underline hover:text-primary">Terms of Service</a>
+              {" "}and{" "}
+              <a href="/privacy" className="underline hover:text-primary">Privacy Policy</a>
+            </p>
+          </CardContent>
         </Card>
       </div>
     </Layout>
   );
-} 
+}

@@ -2,19 +2,14 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import Link from 'next/link';
 import { Layout } from '@/components/layout';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { Label } from '@/components/ui/label';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { loginWithEmailAndPassword, signInWithGoogle } from '@/lib/supabase';
+import { signInWithGoogle } from '@/lib/supabase';
 import { useAuth } from '@/lib/auth-context';
 
 export default function SignInPage() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
@@ -23,41 +18,9 @@ export default function SignInPage() {
   // Redirect if already logged in
   useEffect(() => {
     if (user) {
-      console.log("User already signed in, redirecting to dashboard");
       router.push('/dashboard');
     }
   }, [user, router]);
-
-  const handleEmailSignIn = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    setError(null);
-
-    if (!email || !password) {
-      setError('Please fill in all fields');
-      setLoading(false);
-      return;
-    }
-
-    try {
-      const { user, error } = await loginWithEmailAndPassword(email, password);
-
-      if (error) {
-        setError(error);
-        setLoading(false);
-        return;
-      }
-
-      if (user) {
-        console.log("Email sign-in successful");
-        router.push('/dashboard');
-      }
-    } catch (err) {
-      console.error("Unexpected error:", err);
-      setError("An unexpected error occurred");
-      setLoading(false);
-    }
-  };
 
   const handleGoogleSignIn = async () => {
     if (loading) return;
@@ -74,15 +37,14 @@ export default function SignInPage() {
       }
 
       // Supabase OAuth will redirect to /auth/callback
-      // No need to manually redirect here
     } catch (err) {
       console.error("Error during Google sign-in:", err);
-      setError("An unexpected error occurred");
+      setError("An unexpected error occurred. Please try again.");
       setLoading(false);
     }
   };
 
-  // Don't render anything if we're already logged in and redirecting
+  // Don't render anything if we're already logged in
   if (user) {
     return null;
   }
@@ -91,65 +53,25 @@ export default function SignInPage() {
     <Layout>
       <div className="container max-w-md py-24">
         <Card>
-          <CardHeader className="space-y-1">
-            <CardTitle className="text-2xl font-bold">Sign in</CardTitle>
+          <CardHeader className="space-y-1 text-center">
+            <CardTitle className="text-3xl font-bold">Welcome Back</CardTitle>
             <CardDescription>
-              Enter your email and password to sign in to your account
+              Sign in to VocalWell.ai with your Google account
             </CardDescription>
           </CardHeader>
-          <CardContent className="space-y-4">
+          <CardContent className="space-y-4 pt-6">
             {error && (
               <Alert variant="destructive">
                 <AlertDescription>{error}</AlertDescription>
               </Alert>
             )}
-            <form onSubmit={handleEmailSignIn} className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="email">Email</Label>
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder="name@example.com"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                />
-              </div>
-              <div className="space-y-2">
-                <div className="flex items-center justify-between">
-                  <Label htmlFor="password">Password</Label>
-                  <Link href="/forgot-password" className="text-sm text-primary hover:underline">
-                    Forgot password?
-                  </Link>
-                </div>
-                <Input
-                  id="password"
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                />
-              </div>
-              <Button type="submit" className="w-full" disabled={loading}>
-                {loading ? "Signing in..." : "Sign in"}
-              </Button>
-            </form>
-            <div className="relative">
-              <div className="absolute inset-0 flex items-center">
-                <span className="w-full border-t" />
-              </div>
-              <div className="relative flex justify-center text-xs uppercase">
-                <span className="bg-background px-2 text-muted-foreground">
-                  Or continue with
-                </span>
-              </div>
-            </div>
+
             <Button
               variant="outline"
-              className="w-full flex items-center justify-center gap-2 border-gray-300 hover:bg-gray-50"
+              className="w-full h-12 flex items-center justify-center gap-3 border-2 hover:bg-gray-50 dark:hover:bg-gray-800"
               onClick={handleGoogleSignIn}
               disabled={loading}
-              type="button" // Explicitly set type to button to prevent form submission
+              type="button"
             >
               <svg className="h-5 w-5" viewBox="0 0 24 24">
                 <path
@@ -169,19 +91,20 @@ export default function SignInPage() {
                   fill="#EA4335"
                 />
               </svg>
-              <span className="font-medium">{loading ? "Signing in..." : "Sign in with Google"}</span>
+              <span className="font-medium text-base">
+                {loading ? "Signing in..." : "Continue with Google"}
+              </span>
             </Button>
+
+            <p className="text-center text-sm text-muted-foreground pt-4">
+              By continuing, you agree to our{" "}
+              <a href="/terms" className="underline hover:text-primary">Terms of Service</a>
+              {" "}and{" "}
+              <a href="/privacy" className="underline hover:text-primary">Privacy Policy</a>
+            </p>
           </CardContent>
-          <CardFooter className="flex justify-center">
-            <div className="text-sm text-muted-foreground">
-              Don&apos;t have an account?{" "}
-              <Link href="/signup" className="text-primary hover:underline">
-                Sign up
-              </Link>
-            </div>
-          </CardFooter>
         </Card>
       </div>
     </Layout>
   );
-} 
+}
