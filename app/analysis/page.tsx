@@ -264,22 +264,25 @@ export default function AnalysisPage() {
       const reportFile = new File([reportBlob], `voice_analysis_${Date.now()}.pdf`, { type: 'application/pdf' })
       setReportFile(reportFile)
 
-      // Store report on IPFS and Firebase
+      // Store report in Supabase
       try {
         toast({
           title: "Processing",
           description: "Storing your report securely...",
         });
 
-        const report = await reportService.storeReport(
-          user.uid,
-          reportFile,
-          `Voice Analysis Report - ${new Date().toLocaleDateString()}`
-        );
+        const report = await saveReport({
+          userId: user.id,
+          reportPath: data.ReportPath,
+          plotPath: data.PlotPath,
+          class: data.Prediction,
+          risk_level: data.RiskLevel || 'Unknown',
+          prediction: data.Prediction,
+        });
 
         toast({
           title: "Success",
-          description: "Report stored successfully on IPFS and in your account.",
+          description: "Report stored successfully in your account.",
         });
 
         console.log('Report stored successfully:', report);
