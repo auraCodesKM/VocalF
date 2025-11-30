@@ -39,7 +39,7 @@ export default function HomePage() {
         {/* Hero Section with Background Boxes */}
         <section className="relative min-h-screen -mt-24 pt-32 pb-16 flex items-center overflow-hidden bg-white dark:bg-slate-900">
           {/* Background Boxes - ensure it's visible and interactive */}
-          <div className="absolute inset-0 w-full h-full z-0">
+          <div className="hidden md:block absolute inset-0 w-full h-full z-0">
             <Boxes />
           </div>
 
@@ -141,7 +141,7 @@ export default function HomePage() {
         {/* Features Section - Redesigned with FlickeringGrid */}
         <section className="relative py-24 sm:py-32 overflow-hidden bg-white dark:bg-slate-900">
           {/* FlickeringGrid Background */}
-          <div className="absolute inset-0 z-0">
+          <div className="hidden md:block absolute inset-0 z-0">
             <FlickeringGrid
               className="absolute inset-0"
               squareSize={4}
@@ -438,7 +438,9 @@ export default function HomePage() {
 
         {/* Testimonials Section with Background Beams */}
         <section className="relative py-24 sm:py-32 overflow-hidden bg-slate-950">
-          <BackgroundBeams className="opacity-40" />
+          <div className="hidden md:block">
+            <BackgroundBeams className="opacity-40" />
+          </div>
 
           <div className="container relative z-10 px-4 sm:px-6">
             <div className="max-w-3xl mx-auto text-center mb-16 md:mb-24">

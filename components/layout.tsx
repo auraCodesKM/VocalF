@@ -273,13 +273,17 @@ export function Layout({ children, featuresRef }: LayoutProps) {
                 </div>
 
                 <div className="mt-2 px-4 space-y-8">
-                  <div className="px-1">
+                  <div className="px-1 flex items-center justify-between">
                     <div className="relative flex items-center">
                       <div className="w-10 h-10 flex items-center justify-center bg-indigo-600 text-white rounded-lg">
                         <Mic className="h-6 w-6" />
                       </div>
                       <span className="ml-2 text-xl font-display font-semibold">VocalWell.ai</span>
                     </div>
+                    <AnimatedThemeToggler
+                      className="rounded-full w-10 h-10 bg-gray-100 dark:bg-gray-800 flex items-center justify-center transition-colors hover:bg-gray-200 dark:hover:bg-gray-700"
+                      duration={600}
+                    />
                   </div>
 
                   <div className="space-y-6 border-t border-gray-200 dark:border-gray-800 py-6">
