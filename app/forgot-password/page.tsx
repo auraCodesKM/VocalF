@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Alert, AlertDescription } from "@/components/ui/alert"
-import { getAuth, sendPasswordResetEmail } from "firebase/auth"
+import { resetPassword } from "@/lib/supabase"
 
 export default function ForgotPasswordPage() {
   const [email, setEmail] = useState("")
@@ -29,9 +29,12 @@ export default function ForgotPasswordPage() {
     }
 
     try {
-      const auth = getAuth()
-      await sendPasswordResetEmail(auth, email)
-      setSuccess("Password reset email sent. Check your inbox.")
+      const { error: resetError } = await resetPassword(email)
+      if (resetError) {
+        setError(resetError)
+      } else {
+        setSuccess("Password reset email sent. Check your inbox.")
+      }
     } catch (err: any) {
       setError(err.message || "Failed to send reset email")
     } finally {
@@ -63,10 +66,10 @@ export default function ForgotPasswordPage() {
             <form onSubmit={handleResetPassword} className="space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="email">Email</Label>
-                <Input 
-                  id="email" 
-                  type="email" 
-                  placeholder="name@example.com" 
+                <Input
+                  id="email"
+                  type="email"
+                  placeholder="name@example.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required

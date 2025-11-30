@@ -9,9 +9,8 @@ import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { loginWithEmailAndPassword, signInWithGoogle, handleRedirectResult } from '@/lib/firebase';
+import { loginWithEmailAndPassword, signInWithGoogle } from '@/lib/supabase';
 import { useAuth } from '@/lib/auth-context';
-import { auth } from '@/lib/firebase';
 
 export default function SignInPage() {
   const [email, setEmail] = useState('');
@@ -20,46 +19,6 @@ export default function SignInPage() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const { user } = useAuth();
-
-  // Check for redirect result on page load
-  useEffect(() => {
-    const checkRedirectResult = async () => {
-      try {
-        // First check if we're already signed in (faster UI response)
-        if (auth.currentUser) {
-          console.log("Already signed in as:", auth.currentUser.email);
-          router.push('/dashboard');
-          return;
-        }
-
-        // Then process any redirect result
-        const { user, error } = await handleRedirectResult();
-        if (error) {
-          console.error("Redirect result error:", error);
-          setError(error);
-        } else if (user) {
-          console.log("User signed in via redirect:", user.email);
-          // Store a flag in sessionStorage to prevent redirect loops
-          sessionStorage.setItem('redirectProcessed', 'true');
-          router.push('/dashboard');
-        }
-      } catch (err) {
-        console.error("Error handling redirect:", err);
-      } finally {
-        // Don't set loading to false here as it affects the Google button
-      }
-    };
-
-    // Only check for redirect if we haven't processed one recently
-    // This prevents potential loops where a failed auth might keep triggering redirects
-    const redirectProcessed = sessionStorage.getItem('redirectProcessed') === 'true';
-    if (!user && !redirectProcessed) {
-      checkRedirectResult();
-    } else if (redirectProcessed) {
-      // Clear the flag after processing
-      sessionStorage.removeItem('redirectProcessed');
-    }
-  }, [router, user]);
 
   // Redirect if already logged in
   useEffect(() => {
@@ -82,7 +41,7 @@ export default function SignInPage() {
 
     try {
       const { user, error } = await loginWithEmailAndPassword(email, password);
-      
+
       if (error) {
         setError(error);
         setLoading(false);
@@ -106,19 +65,16 @@ export default function SignInPage() {
     setError(null);
 
     try {
-      const { user, error } = await signInWithGoogle();
-      
-      if (error) {
-        setError(error);
+      const result = await signInWithGoogle();
+
+      if (result.error) {
+        setError(result.error);
         setLoading(false);
         return;
       }
 
-      if (user) {
-        router.push('/dashboard');
-      } else {
-        setLoading(false);
-      }
+      // Supabase OAuth will redirect to /auth/callback
+      // No need to manually redirect here
     } catch (err) {
       console.error("Error during Google sign-in:", err);
       setError("An unexpected error occurred");
@@ -150,10 +106,10 @@ export default function SignInPage() {
             <form onSubmit={handleEmailSignIn} className="space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="email">Email</Label>
-                <Input 
-                  id="email" 
-                  type="email" 
-                  placeholder="name@example.com" 
+                <Input
+                  id="email"
+                  type="email"
+                  placeholder="name@example.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
@@ -166,9 +122,9 @@ export default function SignInPage() {
                     Forgot password?
                   </Link>
                 </div>
-                <Input 
-                  id="password" 
-                  type="password" 
+                <Input
+                  id="password"
+                  type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
@@ -188,8 +144,8 @@ export default function SignInPage() {
                 </span>
               </div>
             </div>
-            <Button 
-              variant="outline" 
+            <Button
+              variant="outline"
               className="w-full flex items-center justify-center gap-2 border-gray-300 hover:bg-gray-50"
               onClick={handleGoogleSignIn}
               disabled={loading}

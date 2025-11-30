@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { Layout } from '@/components/layout';
@@ -10,7 +10,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Label } from '@/components/ui/label';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Checkbox } from '@/components/ui/checkbox';
-import { registerWithEmailAndPassword, signInWithGoogle } from '@/lib/firebase';
+import { registerWithEmailAndPassword, signInWithGoogle } from '@/lib/supabase';
 import { useAuth } from '@/lib/auth-context';
 
 export default function SignUpPage() {
@@ -54,7 +54,7 @@ export default function SignUpPage() {
 
     try {
       const { user, error } = await registerWithEmailAndPassword(email, password);
-      
+
       if (error) {
         setError(error);
         setLoading(false);
@@ -75,7 +75,7 @@ export default function SignUpPage() {
   const handleGoogleSignUp = async () => {
     // Don't do anything if already in loading state
     if (loading) return;
-    
+
     setLoading(true);
     setError(null);
 
@@ -87,25 +87,17 @@ export default function SignUpPage() {
 
     try {
       console.log("Starting Google sign-up process");
-      const { user, error } = await signInWithGoogle();
-      
-      if (error) {
-        console.error("Google sign-up returned error:", error);
-        setError(error);
+      const result = await signInWithGoogle();
+
+      if (result.error) {
+        console.error("Google sign-up returned error:", result.error);
+        setError(result.error);
         setLoading(false);
         return;
       }
 
-      if (user) {
-        console.log("Google sign-up successful with user:", user.email);
-        // Set a flag to prevent unnecessary redirects
-        sessionStorage.setItem('googleSignInCompleted', 'true');
-        router.push('/dashboard');
-      } else {
-        // No user and no error should not happen with the updated implementation
-        console.log("No user returned from Google sign-up");
-        setLoading(false);
-      }
+      // Supabase OAuth will redirect to /auth/callback
+      // No need to manually redirect here
     } catch (err) {
       console.error("Unexpected error during Google sign-up:", err);
       setError("An unexpected error occurred. Please try again later.");
@@ -132,10 +124,10 @@ export default function SignUpPage() {
             <form onSubmit={handleEmailSignUp} className="space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="email">Email</Label>
-                <Input 
-                  id="email" 
-                  type="email" 
-                  placeholder="name@example.com" 
+                <Input
+                  id="email"
+                  type="email"
+                  placeholder="name@example.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
@@ -143,9 +135,9 @@ export default function SignUpPage() {
               </div>
               <div className="space-y-2">
                 <Label htmlFor="password">Password</Label>
-                <Input 
-                  id="password" 
-                  type="password" 
+                <Input
+                  id="password"
+                  type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
@@ -153,17 +145,17 @@ export default function SignUpPage() {
               </div>
               <div className="space-y-2">
                 <Label htmlFor="confirmPassword">Confirm Password</Label>
-                <Input 
-                  id="confirmPassword" 
-                  type="password" 
+                <Input
+                  id="confirmPassword"
+                  type="password"
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   required
                 />
               </div>
               <div className="flex items-center space-x-2">
-                <Checkbox 
-                  id="terms" 
+                <Checkbox
+                  id="terms"
                   checked={acceptTerms}
                   onCheckedChange={(checked) => setAcceptTerms(checked === true)}
                 />
@@ -191,9 +183,9 @@ export default function SignUpPage() {
                 </span>
               </div>
             </div>
-            <Button 
-              variant="outline" 
-              className="w-full flex items-center justify-center gap-2 border-gray-300 hover:bg-gray-50" 
+            <Button
+              variant="outline"
+              className="w-full flex items-center justify-center gap-2 border-gray-300 hover:bg-gray-50"
               onClick={handleGoogleSignUp}
               disabled={loading}
               type="button" // Explicitly set type to button to prevent form submission

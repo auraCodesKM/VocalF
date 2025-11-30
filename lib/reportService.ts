@@ -1,91 +1,60 @@
-import { db } from './firebase';
-import { collection, addDoc, query, where, getDocs, Timestamp } from 'firebase/firestore';
-import { getIPFSUrl } from './utils';
+import { supabase } from './supabase';
 
-interface Report {
-  id: string;
+export interface Report {
+  id?: string;
   userId: string;
-  reportName: string;
-  timestamp: Date;
-  ipfsCID: string;
+  reportPath: string;
+  plotPath?: string;
+  class: string;
+  riskLevel?: string;
+  prediction: string;
+  createdAt?: string;
 }
 
-export class ReportService {
-  private readonly PINATA_JWT = process.env.NEXT_PUBLIC_PINATA_JWT;
-  private readonly PINATA_API_URL = 'https://api.pinata.cloud/pinning/pinFileToIPFS';
+export const saveReport = async (report: Report) => {
+  const { data, error } = await supabase
+    .from('reports')
+    .insert([{
+      user_id: report.userId,
+      report_path: report.reportPath,
+      plot_path: report.plotPath,
+      class: report.class,
+      risk_level: report.riskLevel,
+      prediction: report.prediction,
+    }])
+    .select()
+    .single();
 
-  async uploadToIPFS(file: File): Promise<string> {
-    if (!this.PINATA_JWT) {
-      throw new Error('Pinata JWT not configured');
-    }
+  if (error) throw error;
+  return data;
+};
 
-    const formData = new FormData();
-    formData.append('file', file);
+export const getUserReports = async (userId: string) => {
+  const { data, error } = await supabase
+    .from('reports')
+    .select('*')
+    .eq('user_id', userId)
+    .order('created_at', { ascending: false });
 
-    const response = await fetch(this.PINATA_API_URL, {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${this.PINATA_JWT}`,
-      },
-      body: formData,
-    });
+  if (error) throw error;
 
-    if (!response.ok) {
-      throw new Error('Failed to upload to IPFS');
-    }
+  return data.map(report => ({
+    id: report.id,
+    userId: report.user_id,
+    reportPath: report.report_path,
+    plotPath: report.plot_path,
+    class: report.class,
+    riskLevel: report.risk_level,
+    prediction: report.prediction,
+    createdAt: report.created_at,
+  }));
+};
 
-    const result = await response.json();
-    return result.IpfsHash;
-  }
+export const deleteReport = async (reportId: string) => {
+  const { error } = await supabase
+    .from('reports')
+    .delete()
+    .eq('id', reportId);
 
-  async storeReport(userId: string, file: File, reportName: string): Promise<Report> {
-    try {
-      // Upload to IPFS
-      const ipfsCID = await this.uploadToIPFS(file);
-
-      // Store in Firebase
-      const reportData = {
-        userId,
-        reportName,
-        timestamp: Timestamp.now(),
-        ipfsCID,
-      };
-
-      const docRef = await addDoc(collection(db, 'reports'), reportData);
-
-      return {
-        id: docRef.id,
-        userId,
-        reportName,
-        timestamp: reportData.timestamp.toDate(),
-        ipfsCID,
-      };
-    } catch (error) {
-      console.error('Error storing report:', error);
-      throw error;
-    }
-  }
-
-  async getUserReports(userId: string): Promise<Report[]> {
-    try {
-      const reportsRef = collection(db, 'reports');
-      const q = query(reportsRef, where('userId', '==', userId));
-      const querySnapshot = await getDocs(q);
-
-      return querySnapshot.docs.map(doc => ({
-        id: doc.id,
-        userId: doc.data().userId,
-        reportName: doc.data().reportName,
-        timestamp: doc.data().timestamp.toDate(),
-        ipfsCID: doc.data().ipfsCID,
-      }));
-    } catch (error) {
-      console.error('Error getting user reports:', error);
-      throw error;
-    }
-  }
-
-  getIPFSUrl(ipfsCID: string): string {
-    return getIPFSUrl(ipfsCID);
-  }
-} 
+  if (error) throw error;
+};

@@ -1,41 +1,38 @@
-import { getStorage, ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
-import app from './firebase';
+import { supabase } from './supabase';
 
-const storage = getStorage(app);
-
-export const uploadFile = async (file: File, path: string): Promise<string> => {
-  try {
-    const storageRef = ref(storage, path);
-    const uploadTask = uploadBytesResumable(storageRef, file);
-    
-    return new Promise((resolve, reject) => {
-      uploadTask.on('state_changed',
-        (snapshot) => {
-          // Progress tracking can be implemented here if needed
-        },
-        (error: unknown) => {
-          reject(error);
-        },
-        async () => {
-          try {
-            const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-            resolve(downloadURL);
-          } catch (error: unknown) {
-            reject(error);
-          }
-        }
-      );
+export const uploadFile = async (
+  file: File,
+  bucket: string,
+  path: string
+): Promise<string> => {
+  const { data, error } = await supabase.storage
+    .from(bucket)
+    .upload(path, file, {
+      cacheControl: '3600',
+      upsert: false,
     });
-  } catch (error: unknown) {
-    throw new Error(`Failed to upload file: ${error instanceof Error ? error.message : 'Unknown error'}`);
-  }
+
+  if (error) throw error;
+
+  const { data: { publicUrl } } = supabase.storage
+    .from(bucket)
+    .getPublicUrl(data.path);
+
+  return publicUrl;
 };
 
-export const getFileUrl = async (path: string): Promise<string> => {
-  try {
-    const storageRef = ref(storage, path);
-    return await getDownloadURL(storageRef);
-  } catch (error: unknown) {
-    throw new Error(`Failed to get file URL: ${error instanceof Error ? error.message : 'Unknown error'}`);
-  }
-}; 
+export const getFileUrl = async (bucket: string, path: string): Promise<string> => {
+  const { data: { publicUrl } } = supabase.storage
+    .from(bucket)
+    .getPublicUrl(path);
+
+  return publicUrl;
+};
+
+export const deleteFile = async (bucket: string, path: string) => {
+  const { error } = await supabase.storage
+    .from(bucket)
+    .remove([path]);
+
+  if (error) throw error;
+};

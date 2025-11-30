@@ -6,7 +6,7 @@ import { Mic, Moon, Sun, Menu, X, LogOut, User } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useTheme } from "next-themes"
 import { useAuth } from "@/lib/auth-context"
-import { logOut } from "@/lib/firebase"
+import { logOut } from "@/lib/supabase"
 import { useRouter } from "next/navigation"
 import { motion, AnimatePresence } from "framer-motion"
 import {

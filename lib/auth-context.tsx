@@ -1,8 +1,8 @@
 "use client"
 
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { User } from 'firebase/auth';
-import { onAuthStateChange, auth, logOut } from './firebase';
+import type { User } from '@supabase/supabase-js';
+import { onAuthStateChange, logOut } from './supabase';
 
 type AuthContextType = {
   user: User | null;
@@ -13,7 +13,7 @@ type AuthContextType = {
 const AuthContext = createContext<AuthContextType>({
   user: null,
   loading: true,
-  logout: async () => {},
+  logout: async () => { },
 });
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -21,14 +21,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Simple approach: just listen for auth state changes
-    const unsubscribe = onAuthStateChange((authUser) => {
+    const { data } = onAuthStateChange((authUser) => {
       setUser(authUser);
       setLoading(false);
     });
 
-    // Cleanup subscription on unmount
-    return () => unsubscribe();
+    return () => {
+      data.subscription.unsubscribe();
+    };
   }, []);
 
   const logout = async () => {
@@ -46,4 +46,4 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   );
 };
 
-export const useAuth = () => useContext(AuthContext); 
+export const useAuth = () => useContext(AuthContext);
