@@ -25,15 +25,19 @@
 
 VocalWell.ai is a full-stack voice health SaaS platform. The frontend is a Next.js 14 application that lets users record or upload voice samples, receive AI-powered pathology analysis from the backend, visualize their vocal health history, complete guided exercises, connect with doctors, and store tamper-proof reports on IPFS with on-chain verification via EduChain.
 
+### Live App Screenshots
+
+<img src="screenshots/homepage.png" width="100%" alt="VocalWell.ai Homepage"/>
+
 <table>
 <tr>
 <td align="center" width="50%">
-<img src="screenshots/vocal-health-overview.jpg" width="400" alt="Vocal Health Analysis"/>
-<br/><sub>AI Voice Pathology Detection</sub>
+<img src="screenshots/features-page.png" width="100%" alt="Features Page"/>
+<br/><sub>Advanced Voice Analysis Technology page</sub>
 </td>
 <td align="center" width="50%">
-<img src="screenshots/map-placeholder.jpg" width="400" alt="Doctor Connect"/>
-<br/><sub>Doctor Connect — Find Specialists</sub>
+<img src="screenshots/signin.png" width="100%" alt="Sign In Page"/>
+<br/><sub>Google OAuth Sign In</sub>
 </td>
 </tr>
 </table>
