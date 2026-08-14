@@ -47,13 +47,11 @@ export default function UserReportsPage() {
   }, [user]);
 
   const handleDownload = (reportPath: string) => {
-    const url = `${API_ENDPOINTS.REPORTS}/${reportPath}?download=true`;
-    window.open(url, '_blank');
+    window.open(API_ENDPOINTS.REPORT_DOWNLOAD(reportPath), '_blank');
   };
 
   const handleViewReport = (reportPath: string) => {
-    const url = `${API_ENDPOINTS.REPORTS}/${reportPath}`;
-    window.open(url, '_blank');
+    window.open(API_ENDPOINTS.REPORT(reportPath), '_blank');
   };
 
   return (
