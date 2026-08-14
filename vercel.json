@@ -4,7 +4,7 @@
   "rewrites": [
     {
       "source": "/api/:path*",
-      "destination": "https://your-railway-backend-url.up.railway.app/:path*"
+      "destination": "https://auracodes-vocalwell-backend.hf.space/:path*"
     }
   ],
   "headers": [
